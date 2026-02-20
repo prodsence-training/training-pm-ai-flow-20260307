@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPEC-002 Prototype | Scope Change Waterfall Widget</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f3f4f6; min-height: 100vh; }
+
+    .header { background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1rem 2rem; }
+    .header-content { max-width: 900px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+    .header h1 { font-size: 1.5rem; color: #111; }
+    .header p { font-size: 0.875rem; color: #6b7280; margin-top: 0.25rem; }
+    .badge { background: #fef3c7; color: #92400e; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 500; }
+
+    .main { max-width: 900px; margin: 0 auto; padding: 2rem; }
+
+    .filter-section { margin-bottom: 1.5rem; }
+    .filter-section label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem; }
+    .filter-section select { width: 16rem; padding: 0.5rem 0.75rem; border: 1px solid #d1d5db; border-radius: 0.375rem; background: white; font-size: 1rem; }
+
+    .scenario-info { background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.375rem; padding: 0.75rem; margin-bottom: 1rem; }
+    .scenario-info p { font-size: 0.875rem; color: #1e40af; }
+    .scenario-info span { font-weight: 500; }
+
+    .card { background: white; border-radius: 0.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); padding: 1.5rem; margin-bottom: 1.5rem; }
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .card-header h2 { font-size: 1.25rem; font-weight: 700; color: #1f2937; }
+    .change-badge { font-size: 0.875rem; color: #6b7280; }
+    .change-positive { color: #ef4444; font-weight: 700; }
+    .change-negative { color: #22c55e; font-weight: 700; }
+
+    .chart-container { height: 300px; display: flex; align-items: flex-end; justify-content: space-around; padding: 1rem 0; border-bottom: 2px solid #e5e7eb; margin-bottom: 1rem; position: relative; }
+    .chart-container::before { content: 'Story Points'; position: absolute; left: -10px; top: 50%; transform: rotate(-90deg) translateX(-50%); font-size: 0.75rem; color: #6b7280; }
+
+    .bar-group { display: flex; flex-direction: column; align-items: center; flex: 1; max-width: 120px; }
+    .bar { width: 60px; border-radius: 4px 4px 0 0; transition: all 0.3s; cursor: pointer; position: relative; }
+    .bar:hover { opacity: 0.8; }
+    .bar-value { position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-weight: 700; font-size: 0.875rem; }
+    .bar-label { margin-top: 0.75rem; font-size: 0.75rem; color: #6b7280; text-align: center; }
+
+    .bar-initial { background: #3b82f6; }
+    .bar-added { background: #ef4444; }
+    .bar-removed { background: #eab308; }
+    .bar-final { background: #22c55e; }
+
+    .legend { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.875rem; color: #6b7280; }
+    .legend-color { width: 1rem; height: 1rem; border-radius: 0.25rem; }
+
+    .summary { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb; }
+    .summary-item { text-align: center; }
+    .summary-item p { font-size: 0.875rem; color: #6b7280; margin-bottom: 0.25rem; }
+    .summary-item .value { font-size: 1.5rem; font-weight: 700; }
+    .text-blue { color: #3b82f6; }
+    .text-red { color: #ef4444; }
+    .text-yellow { color: #eab308; }
+    .text-green { color: #22c55e; }
+
+    .tooltip { display: none; position: fixed; background: white; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 0.75rem; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 1000; min-width: 160px; }
+    .tooltip.show { display: block; }
+    .tooltip-title { font-weight: 500; color: #1f2937; margin-bottom: 0.5rem; }
+    .tooltip-row { display: flex; justify-content: space-between; font-size: 0.875rem; padding: 0.125rem 0; }
+    .tooltip-row span:first-child { color: #6b7280; }
+    .tooltip-row span:last-child { font-weight: 700; }
+    .tooltip-total { border-top: 1px solid #e5e7eb; margin-top: 0.25rem; padding-top: 0.25rem; }
+
+    .info-box { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 0.5rem; padding: 1rem; margin-bottom: 1rem; }
+    .info-box h3 { font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem; }
+    .info-box ul { font-size: 0.875rem; color: #4b5563; list-style: none; }
+    .info-box li { padding: 0.25rem 0; }
+    .highlight-red { color: #ef4444; font-weight: 500; }
+    .highlight-yellow { color: #eab308; font-weight: 500; }
+
+    .scenarios-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 0.5rem; padding: 1rem; }
+    .scenarios-box h3 { font-size: 0.875rem; font-weight: 500; color: #92400e; margin-bottom: 0.5rem; }
+    .scenarios-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem; font-size: 0.875rem; color: #b45309; }
+    .scenarios-grid span { font-weight: 500; }
+
+    .footer { background: white; border-top: 1px solid #e5e7eb; margin-top: 2rem; padding: 1rem; text-align: center; font-size: 0.875rem; color: #6b7280; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <div>
+        <h1>Scope Change Waterfall Widget</h1>
+        <p>SPEC-002 Prototype | 範疇變更瀑布圖</p>
+      </div>
+      <span class="badge">Prototype</span>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="filter-section">
+      <label for="sprint-select">Sprint 篩選:</label>
+      <select id="sprint-select">
+        <option value="sprint12">Sprint 12</option>
+        <option value="sprint11">Sprint 11</option>
+        <option value="empty">Empty Sprint</option>
+        <option value="all">ALL</option>
+      </select>
+    </div>
+
+    <div class="scenario-info">
+      <p><span>目前場景：</span><span id="scenario-desc">正常場景：有插單（Bug 為主）+ 有移除項目</span></p>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Scope Change Waterfall</h2>
+        <div class="change-badge">淨變動: <span id="change-percent" class="change-positive">+16.0%</span></div>
+      </div>
+
+      <div class="chart-container" id="chart">
+        <div class="bar-group">
+          <div class="bar bar-initial" id="bar-initial" style="height: 0px;">
+            <span class="bar-value" id="val-initial">0</span>
+          </div>
+          <div class="bar-label">初始承諾</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar bar-added" id="bar-added" style="height: 0px;">
+            <span class="bar-value" id="val-added">0</span>
+          </div>
+          <div class="bar-label">新增插單</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar bar-removed" id="bar-removed" style="height: 0px;">
+            <span class="bar-value" id="val-removed">0</span>
+          </div>
+          <div class="bar-label">移除項目</div>
+        </div>
+        <div class="bar-group">
+          <div class="bar bar-final" id="bar-final" style="height: 0px;">
+            <span class="bar-value" id="val-final">0</span>
+          </div>
+          <div class="bar-label">最終狀態</div>
+        </div>
+      </div>
+
+      <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:#3b82f6"></div>初始承諾</div>
+        <div class="legend-item"><div class="legend-color" style="background:#ef4444"></div>新增插單</div>
+        <div class="legend-item"><div class="legend-color" style="background:#eab308"></div>移除項目</div>
+        <div class="legend-item"><div class="legend-color" style="background:#22c55e"></div>最終狀態</div>
+      </div>
+
+      <div class="summary">
+        <div class="summary-item">
+          <p>初始承諾</p>
+          <div class="value text-blue" id="sum-initial">25</div>
+        </div>
+        <div class="summary-item">
+          <p>新增插單</p>
+          <div class="value text-red" id="sum-added">+12</div>
+        </div>
+        <div class="summary-item">
+          <p>移除項目</p>
+          <div class="value text-yellow" id="sum-removed">-9</div>
+        </div>
+        <div class="summary-item">
+          <p>最終狀態</p>
+          <div class="value text-green" id="sum-final">28</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h3>Prototype 操作說明</h3>
+      <ul>
+        <li>1. 使用上方下拉選單切換不同 Sprint 或選擇 ALL 查看彙總</li>
+        <li>2. 將滑鼠移到 <span class="highlight-red">紅色區塊（新增插單）</span> 查看 Feature/Operation/Bug 分類統計</li>
+        <li>3. 將滑鼠移到 <span class="highlight-yellow">黃色區塊（移除項目）</span> 查看分類統計</li>
+        <li>4. 下方數值摘要顯示各區塊的 Story Points 總數</li>
+      </ul>
+    </div>
+
+    <div class="scenarios-box">
+      <h3>可測試的資料場景</h3>
+      <div class="scenarios-grid">
+        <div><span>Sprint 12：</span>有插單 + 有移除（正常）</div>
+        <div><span>Sprint 11：</span>只有插單（邊界）</div>
+        <div><span>Empty Sprint：</span>空數據（邊界）</div>
+        <div><span>ALL：</span>全部彙總</div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    此為 Prototype 頁面，僅供展示用途，使用假資料 | 完全獨立於 Production Code
+  </footer>
+
+  <!-- Tooltip -->
+  <div class="tooltip" id="tooltip">
+    <div class="tooltip-title" id="tooltip-title">新增插單</div>
+    <div class="tooltip-row"><span>Feature:</span><span id="tt-feature">3 pts</span></div>
+    <div class="tooltip-row"><span>Operation:</span><span id="tt-operation">1 pts</span></div>
+    <div class="tooltip-row"><span>Bug:</span><span id="tt-bug">8 pts</span></div>
+    <div class="tooltip-row tooltip-total"><span>總計:</span><span id="tt-total">12 pts</span></div>
+  </div>
+
+  <script>
+    // 假資料
+    const data = {
+      sprint12: {
+        desc: '正常場景：有插單（Bug 為主）+ 有移除項目',
+        initial: 25,
+        added: 12,
+        removed: 9,
+        addedBreakdown: { Feature: 3, Operation: 1, Bug: 8 },
+        removedBreakdown: { Feature: 5, Operation: 2, Bug: 2 }
+      },
+      sprint11: {
+        desc: '邊界場景：只有插單，無移除項目',
+        initial: 15,
+        added: 3,
+        removed: 0,
+        addedBreakdown: { Feature: 0, Operation: 0, Bug: 3 },
+        removedBreakdown: { Feature: 0, Operation: 0, Bug: 0 }
+      },
+      empty: {
+        desc: '空數據場景：Sprint 沒有任何 Issue',
+        initial: 0,
+        added: 0,
+        removed: 0,
+        addedBreakdown: { Feature: 0, Operation: 0, Bug: 0 },
+        removedBreakdown: { Feature: 0, Operation: 0, Bug: 0 }
+      },
+      all: {
+        desc: '所有 Sprint 的彙總數據',
+        initial: 40,
+        added: 15,
+        removed: 9,
+        addedBreakdown: { Feature: 3, Operation: 1, Bug: 11 },
+        removedBreakdown: { Feature: 5, Operation: 2, Bug: 2 }
+      }
+    };
+
+    const maxHeight = 220;
+    let currentData = data.sprint12;
+
+    function updateChart(sprintKey) {
+      currentData = data[sprintKey];
+      const d = currentData;
+      const final = d.initial + d.added - d.removed;
+      const maxVal = Math.max(d.initial, d.added, d.removed, final, 1);
+
+      // 更新長條圖
+      document.getElementById('bar-initial').style.height = (d.initial / maxVal * maxHeight) + 'px';
+      document.getElementById('bar-added').style.height = (d.added / maxVal * maxHeight) + 'px';
+      document.getElementById('bar-removed').style.height = (d.removed / maxVal * maxHeight) + 'px';
+      document.getElementById('bar-final').style.height = (final / maxVal * maxHeight) + 'px';
+
+      // 更新數值
+      document.getElementById('val-initial').textContent = d.initial;
+      document.getElementById('val-added').textContent = d.added;
+      document.getElementById('val-removed').textContent = d.removed;
+      document.getElementById('val-final').textContent = final;
+
+      document.getElementById('sum-initial').textContent = d.initial;
+      document.getElementById('sum-added').textContent = '+' + d.added;
+      document.getElementById('sum-removed').textContent = '-' + d.removed;
+      document.getElementById('sum-final').textContent = final;
+
+      // 更新變動百分比
+      const changeEl = document.getElementById('change-percent');
+      if (d.initial > 0) {
+        const change = ((d.added - d.removed) / d.initial * 100).toFixed(1);
+        changeEl.textContent = (change >= 0 ? '+' : '') + change + '%';
+        changeEl.className = change >= 0 ? 'change-positive' : 'change-negative';
+      } else {
+        changeEl.textContent = '0%';
+        changeEl.className = '';
+      }
+
+      // 更新場景說明
+      document.getElementById('scenario-desc').textContent = d.desc;
+    }
+
+    // Sprint 選擇器
+    document.getElementById('sprint-select').addEventListener('change', function(e) {
+      updateChart(e.target.value);
+    });
+
+    // Tooltip
+    const tooltip = document.getElementById('tooltip');
+    const barAdded = document.getElementById('bar-added');
+    const barRemoved = document.getElementById('bar-removed');
+
+    function showTooltip(e, type) {
+      const breakdown = type === 'added' ? currentData.addedBreakdown : currentData.removedBreakdown;
+      const total = breakdown.Feature + breakdown.Operation + breakdown.Bug;
+
+      document.getElementById('tooltip-title').textContent = type === 'added' ? '新增插單' : '移除項目';
+      document.getElementById('tt-feature').textContent = breakdown.Feature + ' pts';
+      document.getElementById('tt-operation').textContent = breakdown.Operation + ' pts';
+      document.getElementById('tt-bug').textContent = breakdown.Bug + ' pts';
+      document.getElementById('tt-total').textContent = total + ' pts';
+      document.getElementById('tt-total').style.color = type === 'added' ? '#ef4444' : '#eab308';
+
+      if (total === 0) {
+        tooltip.innerHTML = '<div class="tooltip-title">' + (type === 'added' ? '新增插單' : '移除項目') + '</div><div style="font-size:0.875rem;color:#6b7280;">' + (type === 'added' ? '無新增項目' : '無移除項目') + '</div>';
+      }
+
+      tooltip.style.left = (e.pageX + 10) + 'px';
+      tooltip.style.top = (e.pageY + 10) + 'px';
+      tooltip.classList.add('show');
+    }
+
+    function hideTooltip() {
+      tooltip.classList.remove('show');
+      // 重置 tooltip 內容
+      tooltip.innerHTML = `
+        <div class="tooltip-title" id="tooltip-title">新增插單</div>
+        <div class="tooltip-row"><span>Feature:</span><span id="tt-feature">0 pts</span></div>
+        <div class="tooltip-row"><span>Operation:</span><span id="tt-operation">0 pts</span></div>
+        <div class="tooltip-row"><span>Bug:</span><span id="tt-bug">0 pts</span></div>
+        <div class="tooltip-row tooltip-total"><span>總計:</span><span id="tt-total">0 pts</span></div>
+      `;
+    }
+
+    barAdded.addEventListener('mouseenter', (e) => showTooltip(e, 'added'));
+    barAdded.addEventListener('mousemove', (e) => { tooltip.style.left = (e.pageX + 10) + 'px'; tooltip.style.top = (e.pageY + 10) + 'px'; });
+    barAdded.addEventListener('mouseleave', hideTooltip);
+
+    barRemoved.addEventListener('mouseenter', (e) => showTooltip(e, 'removed'));
+    barRemoved.addEventListener('mousemove', (e) => { tooltip.style.left = (e.pageX + 10) + 'px'; tooltip.style.top = (e.pageY + 10) + 'px'; });
+    barRemoved.addEventListener('mouseleave', hideTooltip);
+
+    // 初始化
+    updateChart('sprint12');
+  </script>
+</body>
+</html>

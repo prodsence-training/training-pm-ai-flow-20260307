@@ -1,0 +1,346 @@
+# Jira Dashboard MVP v1.0
+
+這是一個完整的全端應用程式，用於顯示 Jira 專案的關鍵統計指標、狀態分布和 Sprint 篩選功能。
+
+## 功能特色
+
+✅ **4 個統計指標卡片**
+- Total Issue Count（總 Issue 數）
+- Total Story Points（總故事點數）
+- Total Done Item Count（已完成 Issue 數）
+- Done Story Points（已完成故事點數）
+
+✅ **狀態分布長條圖**
+- 9 個固定狀態的 Issue 分布
+- 互動式 tooltip 顯示詳細資訊
+- 百分比顯示
+
+✅ **Sprint 篩選器**
+- 支援所有 Sprint、特定 Sprint 和「No Sprints」篩選
+- 自動處理重複 Sprint 名稱
+- 即時更新所有指標和圖表
+
+✅ **效能優化**
+- 5 分鐘 in-memory 快取
+- 並行 API 請求
+- 持續載入狀態（無超時）
+
+## 技術堆疊
+
+### 前端
+- **Next.js 15.2.4** (App Router)
+- **React 19.0.0**
+- **TypeScript 5.x**
+- **Tailwind CSS 3.4.x**
+- **Recharts 2.x** (圖表庫)
+
+### 後端
+- **Python 3.11**
+- **FastAPI 0.104.1**
+- **Pandas 2.1.3** (資料處理)
+- **Uvicorn 0.24.0** (ASGI 伺服器)
+
+### 基礎設施
+- **Docker & Docker Compose**
+- **Google Sheets** (CSV API 作為資料來源)
+
+## 🚀 環境設置
+
+### 步驟 1：取得專案 - 選擇其中一種方式
+
+#### 方式 A：使用 Terminal 執行 Git Clone
+
+**前置要求**：
+- 已安裝 Git（檢查：在 Terminal 執行 `git --version`）
+- 如果未安裝，請先安裝：
+  ```bash
+  # macOS（使用 Homebrew）
+  brew install git
+
+  # Windows（使用 Chocolatey）
+  choco install git
+
+  # Linux（Ubuntu/Debian）
+  sudo apt-get install git
+  ```
+
+**詳細步驟**：
+
+1️⃣ **打開 Terminal（終端機）**
+   - **macOS**: 按 `⌘ Command + Space`，搜尋 "Terminal"，按 Enter
+   - **Windows**: 按 `Win + R`，輸入 `cmd` 或 `powershell`，按 Enter
+   - **Linux**: 按 `Ctrl + Alt + T`
+
+2️⃣ **執行以下指令**（複製整行，貼到 Terminal 後按 Enter）：
+   ```bash
+   git clone https://github.com/prodsence-training/training-sciwork2025.git
+   ```
+
+3️⃣ **進入專案目錄**：
+   ```bash
+   cd training-sciwork2025
+   ```
+
+4️⃣ **驗證成功**：
+   ```bash
+   # 應該會看到類似的輸出
+   # On branch main
+   # nothing to commit, working tree clean
+   git status
+   ```
+
+---
+
+#### 方式 B：使用 Antigravity IDE
+
+**步驟**：
+1. 在 Antigravity 中連接到 GitHub repo
+2. 選擇專案並開啟
+
+> 📸 **詳細截圖步驟**（待補充）
+>
+> [這裡將插入 Antigravity 的使用步驟和截圖]
+
+---
+
+### ✅ 驗證環境
+
+在 Terminal 執行以下指令驗證 Docker 已正確安裝：
+
+```bash
+docker --version
+docker-compose --version
+```
+
+**預期輸出**：
+```
+Docker version 20.10+
+Docker Compose version 2.0+
+```
+
+如果看到版本號，表示環境已準備就緒！ ✅
+
+## 快速開始
+
+### 前置需求
+
+- Node.js 18.17+
+- Python 3.11+
+- Docker 20.10+
+- Docker Compose 2.0+
+
+### 方法 1: 使用 Docker Compose（推薦）
+
+#### 📱 模式 1: 快速示範（Demo Mode）
+
+最簡單的方式，一鍵啟動完整應用：
+
+```bash
+# 啟動所有服務
+docker-compose up
+
+# 或背景執行
+docker-compose up -d
+
+# 查看日誌
+docker-compose logs -f
+
+# 停止服務
+docker-compose down          # 停止並移除容器
+# 或按 Ctrl+C（如果在前台執行）
+```
+
+訪問：http://localhost:3000
+
+#### 💻 模式 2: 開發模式（Development Mode）
+
+修改代碼時自動熱重載，適合學員邊學邊改：
+
+```bash
+# 啟動開發容器（支援熱重載）
+docker-compose -f docker-compose.dev.yml up
+
+# 背景執行
+docker-compose -f docker-compose.dev.yml up -d
+
+# 查看日誌
+docker-compose -f docker-compose.dev.yml logs -f frontend
+
+# 停止開發容器
+docker-compose -f docker-compose.dev.yml down
+```
+
+特點：
+- ✅ 修改代碼後立即看到效果（無需重啟）
+- ⚠️ 首次啟動較慢（需要安裝 Playwright 瀏覽器）
+
+---
+
+## 訪問應用程式
+
+啟動容器後，訪問以下位置：
+
+- **前端**：http://localhost:3000
+- **後端 API**：http://localhost:8000
+- **API 文檔**：http://localhost:8000/docs
+
+### 方法 2: 本地開發（適合開發人員，學員無需此步驟）
+
+> ⚠️ **學員注意**：Docker Compose 已包含所有開發環境，無需本地安裝
+
+如果需要本地開發環境，參考以下步驟：
+
+#### 後端
+
+```bash
+cd backend
+python3.11 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python -m src.main
+```
+
+#### 前端
+
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## 專案結構
+
+```
+training-youtube-spec-kit/
+├── frontend/                 # Next.js 前端應用
+│   ├── src/
+│   │   ├── app/             # Next.js App Router 頁面
+│   │   ├── components/      # React 元件
+│   │   ├── hooks/           # 自訂 Hooks
+│   │   ├── services/        # API 客戶端
+│   │   └── types/           # TypeScript 型別定義
+│   ├── tests/               # 測試文件
+│   └── Dockerfile
+│
+├── backend/                  # FastAPI 後端應用
+│   ├── src/
+│   │   ├── models/          # 資料模型
+│   │   ├── services/        # 服務層
+│   │   ├── api/             # API 路由
+│   │   ├── config.py        # 配置
+│   │   └── main.py          # 主程式
+│   ├── tests/               # 測試文件
+│   ├── requirements.txt
+│   └── Dockerfile
+│
+├── specs/                    # 功能規格文件
+│   └── 001-jira-dashboard-mvp/
+│       ├── spec.md          # 功能規格
+│       ├── plan.md          # 實作計畫
+│       ├── tasks.md         # 任務列表
+│       ├── data-model.md    # 資料模型
+│       ├── research.md      # 技術研究
+│       ├── quickstart.md    # 快速開始指南
+│       └── contracts/       # API 契約
+│
+├── docs/                     # 文件
+│   ├── template/            # 規格模板
+│   ├── reference/           # 參考文件
+│   ├── tech-overview.md     # 技術概覽
+│   └── table-schema.md      # 資料結構
+│
+├── docker-compose.yml
+├── docker-compose.dev.yml
+└── README.md
+```
+
+## 環境變數
+
+專案使用 `.env` 檔案管理環境變數。預設值已提供在 `.env` 檔案中。
+
+### 修改環境變數
+
+如需修改環境變數，編輯對應的 `.env` 檔案：
+
+- **後端**: `backend/.env` - Google Sheets 配置、快取設定、伺服器設定
+- **前端**: `frontend/.env` - API 端點、應用程式名稱
+
+**範例**（參考 `.env.example`）：
+
+**backend/.env**
+```bash
+GoogleSheets__SheetId=YOUR_SHEET_ID
+GoogleSheets__RawDataSheet=rawData
+GoogleSheets__SprintSheet=GetJiraSprintValues
+CacheDuration=300
+HOST=0.0.0.0
+PORT=8000
+LOG_LEVEL=INFO
+```
+
+**frontend/.env**
+```bash
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+NEXT_PUBLIC_APP_TITLE=Jira Dashboard
+```
+
+> ℹ️ **.env 檔案已被 .gitignore 忽略**，不會提交到 git。修改後重啟容器即可生效。
+
+## 資料來源
+
+本應用程式使用 Google Sheets 作為資料來源：
+
+- **Sheet ID**: `1RmJjghgiV3XWLl2BaxT-md8CP3pqb1Wuk-EhFoqp1VM`
+- **rawData 工作表**: 包含 23 個欄位的 Issue 資料（A:W）
+- **GetJiraSprintValues 工作表**: 包含 9 個欄位的 Sprint 資料（A:I）
+
+資料通過 Google Sheets 的公開 CSV 匯出 URL 取得，無需 API 金鑰。
+
+## 故障排除
+
+### 問題 1: 無法連接 Google Sheets
+
+**解決方案:**
+- 驗證 Sheet ID 是否正確
+- 檢查 Google Sheets 是否為公開分享
+- 確認網路連接
+
+### 問題 2: CORS 錯誤
+
+**解決方案:**
+- 確認後端正在執行 (http://localhost:8000)
+- 檢查 NEXT_PUBLIC_API_URL 是否正確設置
+- 重啟前端開發伺服器
+
+### 問題 3: Port 已被使用
+
+**解決方案:**
+```bash
+# 查找佔用端口的進程
+lsof -i :8000   # 後端
+lsof -i :3000   # 前端
+
+# 終止進程
+kill -9 <PID>
+```
+
+## 規格文件
+
+完整的功能規格和實作細節請參考：
+
+- [spec.md](./specs/001-jira-dashboard-mvp/spec.md) - 功能規格
+- [plan.md](./specs/001-jira-dashboard-mvp/plan.md) - 實作計畫
+- [tasks.md](./specs/001-jira-dashboard-mvp/tasks.md) - 任務列表
+- [data-model.md](./specs/001-jira-dashboard-mvp/data-model.md) - 資料模型
+- [quickstart.md](./specs/001-jira-dashboard-mvp/quickstart.md) - 快速開始指南
+
+## 授權
+
+本專案為教學用途，遵循 MIT 授權。
+
+## 貢獻
+
+歡迎提交 Issue 和 Pull Request！
+
+## 作者
+JUGG
