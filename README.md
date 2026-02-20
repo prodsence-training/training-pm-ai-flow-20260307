@@ -73,12 +73,12 @@
 
 2️⃣ **執行以下指令**（複製整行，貼到 Terminal 後按 Enter）：
    ```bash
-   git clone https://github.com/prodsence-training/training-sciwork2025.git
+   git clone https://github.com/prodsence-training/training-pm-ai-flow-20260307.git
    ```
 
 3️⃣ **進入專案目錄**：
    ```bash
-   cd training-sciwork2025
+   cd training-pm-ai-flow-20260307
    ```
 
 4️⃣ **驗證成功**：
