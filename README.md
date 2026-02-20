@@ -124,10 +124,12 @@ Docker Compose version 2.0+
 
 ### 前置需求
 
-- Node.js 18.17+
-- Python 3.11+
+✅ **只需要 Docker**：
 - Docker 20.10+
 - Docker Compose 2.0+
+
+> 💡 **您無需安裝 Node.js 或 Python**
+> 所有依賴都已包含在 Docker 容器中
 
 ### 方法 1: 使用 Docker Compose（推薦）
 
@@ -211,48 +213,51 @@ npm run dev
 ## 專案結構
 
 ```
-training-youtube-spec-kit/
-├── frontend/                 # Next.js 前端應用
-│   ├── src/
-│   │   ├── app/             # Next.js App Router 頁面
-│   │   ├── components/      # React 元件
-│   │   ├── hooks/           # 自訂 Hooks
-│   │   ├── services/        # API 客戶端
-│   │   └── types/           # TypeScript 型別定義
-│   ├── tests/               # 測試文件
-│   └── Dockerfile
+training-pm-ai-flow-20260307/
 │
-├── backend/                  # FastAPI 後端應用
+├── 📦 frontend/              # Next.js 前端應用
 │   ├── src/
-│   │   ├── models/          # 資料模型
-│   │   ├── services/        # 服務層
-│   │   ├── api/             # API 路由
-│   │   ├── config.py        # 配置
-│   │   └── main.py          # 主程式
-│   ├── tests/               # 測試文件
-│   ├── requirements.txt
-│   └── Dockerfile
+│   │   ├── app/            # 儀表板頁面
+│   │   ├── components/     # UI 元件（卡片、圖表、篩選器）
+│   │   ├── hooks/          # 資料抓取邏輯
+│   │   └── services/       # API 客戶端
+│   ├── Dockerfile
+│   ├── .env                # 前端環境變數
+│   └── .env.example        # 環境變數範本
 │
-├── specs/                    # 功能規格文件
+├── 📦 backend/              # FastAPI 後端應用
+│   ├── src/
+│   │   ├── models/         # 資料結構定義
+│   │   ├── services/       # 業務邏輯（資料處理、快取）
+│   │   └── api/            # API 端點
+│   ├── Dockerfile
+│   ├── .env                # 後端環境變數
+│   ├── .env.example        # 環境變數範本
+│   └── requirements.txt    # Python 依賴
+│
+├── 📋 specs/               # 功能規格文件
 │   └── 001-jira-dashboard-mvp/
-│       ├── spec.md          # 功能規格
-│       ├── plan.md          # 實作計畫
-│       ├── tasks.md         # 任務列表
-│       ├── data-model.md    # 資料模型
-│       ├── research.md      # 技術研究
-│       ├── quickstart.md    # 快速開始指南
-│       └── contracts/       # API 契約
+│       ├── spec.md         # 完整功能規格
+│       ├── testcases.md    # 驗收標準
+│       └── data-model.md   # 資料模型說明
 │
-├── docs/                     # 文件
-│   ├── template/            # 規格模板
-│   ├── reference/           # 參考文件
-│   ├── tech-overview.md     # 技術概覽
-│   └── table-schema.md      # 資料結構
+├── 📚 docs/                # 教學文件
+│   ├── template/           # 規格編寫模板
+│   ├── reference/          # 參考資料
+│   ├── tech-overview.md    # 技術架構說明
+│   ├── chat-note/          # 工作坊筆記
+│   └── prototype/          # Prototype 示例
 │
-├── docker-compose.yml
-├── docker-compose.dev.yml
-└── README.md
+├── docker-compose.yml      # 示範模式（給學員用）
+├── docker-compose.dev.yml  # 開發模式（給您修改用）
+└── README.md               # 本檔案
 ```
+
+**給 PM 學員的重點**：
+- 🎯 **frontend/** - 看得到的儀表板界面
+- 🎯 **backend/** - 資料處理和計算邏輯
+- 🎯 **specs/** - 功能需求和驗收標準
+- 🎯 **docs/** - 規格編寫範本和教學資料
 
 ## 環境變數
 
