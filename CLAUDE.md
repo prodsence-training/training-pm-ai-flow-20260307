@@ -8,6 +8,8 @@ This is a **documentation and template repository** for a YouTube training cours
 
 **Core Purpose**: Provide structured templates and reference documentation for teaching agile product development workflows, particularly in the context of building a Jira Dashboard MVP.
 
+**適用對象**: 本指南是給 Claude Code AI agent 用來開發此教學專案的指導文件。
+
 ### 在開始任何任務之前
 
 - **保持獨立判斷**: 基於技術事實和最佳實踐做決策,不因用戶語氣或期望而改變立場
@@ -17,7 +19,7 @@ This is a **documentation and template repository** for a YouTube training cours
 
 #### 技術決策原則
 
-- **優先查閱文檔**: 使用 Context7 工具獲取 React/Python 最新文檔,避免過時建議
+- **優先查閱文檔**: 使用 Context7 工具或其他資源獲取最新文檔,確保引導內容不過時
 - **spec-driven**: 嚴格基於現有 PRD 和規格文件工作,不自行擴充需求
   
 #### 協作模式
@@ -53,21 +55,30 @@ This is a **documentation and template repository** for a YouTube training cours
 ## Repository Structure
 
 ```
-training-youtube-spec-kit/
+training-pm-ai-flow/
 ├── docs/
-│   ├── assets/           # Demo images (sprint burndowns, progress charts)
-│   ├── reference/        # Reference documentation
-│   │   ├── PRD.md                      # Product Requirements Document
-│   │   ├── painpoint1-progress.md      # Problem analysis: lack of progress awareness
-│   │   ├── CLAUDE-md-myRule.md         # AI interaction guidelines
-│   │   └── constitution-md-myRule.md   # Workspace conventions
-│   ├── template/         # Reusable templates
-│   │   ├── feature-spec-template.md    # Feature specification template
-│   │   ├── user-story-guide.md         # User story writing guide
-│   │   ├── acceptance-criteria-guide.md # AC writing guide (Gherkin format)
-│   │   └── testcase-guide.md           # Test case generation guide
-│   ├── tech-overview.md  # Technical architecture documentation
-│   └── table-schema.md   # Google Sheets data schema (rawData, GetJiraSprintValues)
+│   ├── assets/                      # Demo images
+│   ├── reference/                   # Reference documentation
+│   │   ├── PRD.md                   # Product Requirements Document
+│   │   ├── step0-painpoint-ref.md
+│   │   ├── step1-painpoints-analysis.md
+│   │   ├── step2-ost-v1-all.md
+│   │   ├── step2-ost-v2-focus.md
+│   │   ├── step3-userstory-v1.md
+│   │   ├── step5-ac-scope-change-waterfall-v1.md
+│   │   ├── step6-prd.md
+│   │   └── CLAUDE-md-myRule.md
+│   ├── template/                    # Reusable templates & prompts
+│   │   ├── feature-spec-template-v2.md
+│   │   ├── acceptance-criteria-guide.md
+│   │   ├── prototype-guide.md
+│   │   ├── gemini-gem-PM-1-painpoint-analysis-prompts.md
+│   │   ├── gemini-gem-PM-2-ost-prompts.md
+│   │   └── gemini-gem-PM-3-userstory-prompts.md
+│   ├── prototype/                   # Prototype examples
+│   ├── chat-note/                   # Development notes
+│   ├── tech-overview.md
+│   └── table-schema.md
 ```
 
 ## Key Concepts
@@ -92,24 +103,16 @@ The templates reference a real product example:
 - **Tech Stack**: Next.js 15, React 19, Python/FastAPI backend, Google Sheets integration
 - **Data Architecture**: Strict 23-column rawData schema (A:W) with fixed field order
 - **Core Features**: 4 metric cards + 1 status distribution bar chart + Sprint filter
-- **Development Constraint**: "Vibe Coding" approach with strict data schema limitations
+- **Development Constraint**: 在嚴格資料 schema 限制下，快速迭代開發
 
 ## Working with Templates
 
-### Feature Spec Template (`docs/template/feature-spec-template.md`)
+### Feature Spec Template (`docs/template/feature-spec-template-v2.md`)
 
 When creating new feature specifications:
 - Use the structured format: 功能概述 → 用戶故事 → Acceptance Criteria → 產品規格
 - Include Mermaid flowcharts for complex business logic
-- Ensure each section links properly to guides (user-story-guide.md, acceptance-criteria-guide.md)
-
-### User Story Guide (`docs/template/user-story-guide.md`)
-
-Key principles:
-- Follow format: `作為 [角色]，我希望 [功能]，以便 [價值]`
-- Must satisfy INVEST principles (especially V-Valuable and T-Testable)
-- **Common Mistake**: Avoid putting "what" as "why" (e.g., "以便我有客戶名單" is wrong)
-- **Correct Approach**: Clearly articulate the actual value or pain point being solved
+- Ensure each section links properly to acceptance criteria guide
 
 ### Acceptance Criteria Guide (`docs/template/acceptance-criteria-guide.md`)
 
@@ -119,30 +122,12 @@ Writing standards:
 - Each AC must be directly testable and measurable
 - Maintain 1:1 mapping with User Stories
 
-### Test Case Guide (`docs/template/testcase-guide.md`)
+### Prompt Templates for AI Assistants
 
-Test case generation:
-- Each AC scenario should map to at least one test case
-- Include fields: Test ID, Objective, Related US/AC, Pre-conditions, Steps, Expected Results, Test Data, Type, Automation Level
-- Consider automation feasibility (Unit/Integration/E2E)
-
-## AI Interaction Guidelines
-
-From `docs/reference/CLAUDE-md-myRule.md`:
-
-### Before Starting Any Task
-- **保持獨立判斷**: Base decisions on technical facts and best practices, not user tone
-- **直接溝通**: Avoid excessive politeness or vague expressions
-- **承認不確定性**: Explicitly state uncertainties and propose discussion
-- **挑戰假設**: Proactively question problematic requirements and offer alternatives
-
-### Technical Decision Principles
-- **spec-driven**: Strictly base work on existing PRD and specification documents, do not expand requirements independently
-- **測試案例優先**: Write test cases before implementation for human review
-
-### Code Quality Requirements
-- **清晰命名**: Use descriptive variable and function names
-- **最小改動**: Keep each modification small and focused
+Reference PM-focused prompt templates:
+- `gemini-gem-PM-1-painpoint-analysis-prompts.md` - Pain point discovery
+- `gemini-gem-PM-2-ost-prompts.md` - Opportunity sizing template
+- `gemini-gem-PM-3-userstory-prompts.md` - User story generation
 
 ## Data Architecture (Reference)
 
@@ -175,14 +160,9 @@ The repository documents a strict data schema for the reference Jira Dashboard:
 ## Reference Documents
 
 Critical context for understanding the product domain:
-- **PRD.md**: Complete product requirements for Jira Dashboard MVP v1.0
-- **painpoint1-progress.md**: Deep analysis of the "lack of progress awareness" problem
+- **PRD.md** (`docs/reference/PRD.md`): Complete product requirements for Jira Dashboard MVP v1.0
+- **Step-by-step workflow** (`docs/reference/step*.md`): PM development workflow from pain point analysis to PRD
 - **tech-overview.md**: Technical architecture, tech stack, deployment configuration
 - **table-schema.md**: Detailed data schema with field definitions and access patterns
+- **CLAUDE-md-myRule.md** (`docs/reference/`): Additional AI interaction guidelines
 
-## Language & Communication Standards
-
-See `.specify/memory/constitution.md` **Output Standards** section for:
-- Documentation language preference (Traditional Chinese)
-- Code comment conventions
-- Communication style (direct, objective, action-oriented)
