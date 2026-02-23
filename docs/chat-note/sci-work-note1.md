@@ -20,8 +20,7 @@
     - 舉例：還能生成其他假設嗎？
 - 經過對話，複製最終版的痛點分析至
     - 痛點分析結果：
-    - docs/practices/sciwork-20251213/step1-painpoints-analysis.md
-- 回填：痛點分析結果貼在「小組 Google Sheet」。
+    - docs/lab-20260307/step1-painpoints-analysis.md
 
 ### 筆記
 N/A
