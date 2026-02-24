@@ -3,7 +3,9 @@
 1, 這是第一個請 Agent 幫我編輯程式的練習
 請在 @AI-IDE-practice-notes.md 放入我的名字跟日期
 2, 請簡單描述這個專案的重點
-
+3, 安裝 Extensions
+    - Antigravity Quota
+    - Mermaid
 ## Step 1 痛點分析
 
 ### Given
@@ -36,18 +38,16 @@ N/A
     - docs/template/gemini-gem-PM-2-ost-prompts.md
 - 對話，貼上痛點分析報告，貼上至 Gemini Gem PM-2-Opportunity Solution Tree 助手
     - (1) 痛點分析報告：
-    - docs/practices/sciwork-20251213/step1-painpoints-analysis.md
+    - docs/reference/step1-painpoints-analysis.md
     - 範例對話：
-        - 以下是這次的痛點分析：貼上 (1) 我正準備要 brainstorming Opportunity Solution Tree，請先不要急著生成報告，請向我詢問，透過對話來收斂問題
-- 回答 AI 詢問的問題，也收斂至設計好的情境
-    - 我知道解法有很多種，但我現在剛好在設計此類 Jira Dashboard 產品，希望能解決這些問題，請幫我以外掛網站服務 Jira Dashboard 思維去思考
-- 經過對話，複製最終版的 OST 至
-    - OST 結果：
-    - docs/practices/sciwork-20251213/step2-ost-v1-all.md
-    - 範圍再縮小：
-    - 我想先針對 Scope Change Waterfall（解決「老闆問為什麼做不完」的痛點，針對 PM/Lead）進行發想
-    - 生成：docs/practices/sciwork-20251213/step2-ost-v2-focus.md
-- 回填：OST 結果貼在「小組 Google Sheet」。
+        - 以下是這次的痛點分析：貼上 (1) 痛點分析報告
+        - 回答 AI 詢問的問題，也收斂至設計好的情境
+    - 經過對話，複製最終版的 OST 至
+        - OST 結果：
+            - docs/lab-20260307/step2-ost-v1-all.md
+        - 範圍再縮小：
+            - (例如)我想先針對 Scope Change Waterfall（解決「老闆問為什麼做不完」的痛點，針對 PM/Lead）進行發想
+            - 生成：docs/lab-20260307/step2-ost-v2-focus.md
 
 ### 筆記
 OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版本
