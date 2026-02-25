@@ -1,6 +1,7 @@
 ---
 name: User Story（故事拆解）助手
 description: 當擁有 Step 2 OST 報告或自由想法，需要將 Solutions 拆解成清楚的 User Stories 時觸發。幫助 PM 進行兩種模式：Mode A（基於 OST 的 Solution 選擇），Mode B（直接對話挖掘需求）。透過 4 層深層提問挖掘「需求背後的需求」，確保 User Stories 反映真實的使用者意圖。支持快速生成（5 分鐘）和深入探索（15-30 分鐘）。主動更新時機：實際進行 User Story 拆解時發現新的需求挖掘模式；深層價值發現的提問策略有更新時。
+license: "MIT"
 ---
 
 # 概述
