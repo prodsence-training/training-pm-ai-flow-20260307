@@ -128,58 +128,33 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 - **Gherkin 格式**：使用 Given-When-Then 讓規格可測試且業務邏輯清晰。
 - **系統限制對齊**：在產出 AC 前，先對齊系統限制，再產出規格。
 
-## Step 6 PRD Draft
+## Step 6 PRD Draft (Skill 版)
 
 ### Given
-1, 已有完整的痛點分析 (step1-painpoints-analysis.md)
-2, 已有 OST 報告 (step2-ost-v2-focus.md)
-3, 已有 User Story (step3-userstory-v1.md)
-4, 已有 Acceptance Criteria (step4-ac-scope-change-waterfall-v1.md)
-5, 已有 PRD 製作指南 (docs/template/feature-spec-template-v2.md)
+1. **前置材料（越多越好）**：痛點分析 (Step 1)、User Story (Step 3)、Acceptance Criteria (Step 4)。
+2. **PRD Draft Skill**：確保 AI 已載入對應的專用 Skill。
 
 ### 操作
-1, 回到 AI IDE (Claude Code)
+1. **啟動 PRD Skill**：
+   直接告知 AI 你想開始討論 PRD 並引用相關材料。
+   *範例：*「我想針對這個功能討論 PRD，請根據 `@docs/lab-jugg-example/` 裡的 step1, step3, step4 材料來引導我。」
 
-2, 提供所有前置文件的路徑，要求使用「逐題提問模式」協助產生 PRD
-   - 格式：提供 @file 路徑引用
-   - 說明使用的模板：feature-spec-template-v2.md
-   - 範例：
-   我想產出這個功能的 PRD，請用逐題提問模式協助我。
-   這是痛點分析： @docs/reference/step1-painpoints-analysis.md 
-   這是機會解決方案樹（OST）報告: @docs/reference/step2-ost-v2-focus.md 
-   這是 User Story: @docs/reference/step3-userstory-v1.md 
-   這是 Acceptance Criteria: @docs/reference/step4-ac-scope-change-waterfall-v1.md 
-   PRD 的製作方式請參考 @docs/template/feature-spec-template-v2.md 
+2. **智慧澄清與跳題 (Smart Clarification)**：
+   - AI 會自動解析現有材料，**自動跳過**已知的背景資訊。
+   - 對於材料中隱含的邏輯，AI 會標註 **(AI 推論)** 並請你確認。
+   - AI 只會針對真正缺少的關鍵資訊（如：Metrics、具體邊界、Out-of-Scope）提出澄清問題。
 
-3, AI 將進行 7 個澄清問題（逐題提問）：
-    3-1, 功能的核心目標 (Feature Goal)
-    3-2, 主要使用者 (Primary User)
-    3-3, 功能範圍 Scope
-    3-4, Out-of-Scope
-    3-5, 使用流程 Flow
-    3-6, 系統行為 (System Behavior)
-    3-7, 資料需求 (Data Requirements)
+3. **確認資訊整理摘要**：
+   在正式產出文件前，AI 會整理一份結構化摘要，包含功能目標、主要使用者、Scope、成效指標等。請確認摘要是否正確。
 
-4, 對每個問題回答（可複選）
-   - 格式：A, B, C 等字母或其他選項
-
-5, 確認資訊整理結果
-
-6, AI 將產生完整的 PRD Draft，包含：
-   - 📝 功能概述（需求背景、功能描述、預期影響）
-   - 📋 用戶故事（直接引用 User Story）
-   - ✅ Acceptance Criteria（直接引用 AC）
-   - 🎯 產品規格（功能邊界、業務邏輯、流程圖、相關文件）
-   - 📊 成效追蹤（追蹤指標）
-   - 📝 變更記錄
-
-7, 將 PRD Draft 寫入 specs/{SPEC-ID}-{功能名稱}.md 檔案
+4. **產出正式 PRD Draft**：
+   確認摘要後，AI 會依照 `SPEC-XXX Feature Spec` 模板產出正式文件。
+   *建議存放路徑：* `docs/lab-jugg-example/from-skills-step5-prd.md`
 
 ### 筆記
-- 逐題提問模式確保需求完整性，避免遺漏重要決策
-- PRD Draft 應直接引用已確認的 User Story 和 AC，不要改寫
-- 最終 PRD 需包含業務邏輯流程圖（使用 Mermaid）
-- 完成後執行 git commit 儲存變更
+- **PRD 是翻譯而非創作**：核心價值在於將探索成果轉化為工程規格，應**原文引用** User Story 與 AC，不隨意改寫。
+- **透明推論**：留意 AI 的「(AI 推論)」，如果不符合業務現況應立即修正。
+- **規格優先 (Spec-Driven)**：完成後檢查 PRD 是否包含業務邏輯流程圖（Mermaid），這對開發釐清 if-else 邏輯非常有幫助。
 
 ## Step 7 Prototype
 
