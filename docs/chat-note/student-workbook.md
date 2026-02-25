@@ -55,25 +55,33 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 ## Step 3 User Story
 
 ### Given
-1, 參考 docs/reference/step2-ost-v2-focus.md
+- 選項 A：已有 docs/reference/step2-ost-v2-focus.md
+- 選項 B：自由想法（無需 OST 報告）
 
 ### 操作
 - 建立 Gemini Gem：建立 Gemini Gem
-    - system prompts:
-    - docs/template/gemini-gem-PM-3-userstory-prompts.md
-- 對話:貼上最終 OST，貼上至 Gemini Gem PM-3-User Story 助手
-    - (1) OST：
-    - docs/practices/sciwork-20251213/step2-ost-v2-focus.md
-    - 範例對話：
-        - 這是最終版方案，請參考 貼上 (docs/reference/step2-ost-v2-focus.md) ，跟我討論 User Story
-- 回答 AI 詢問的問題，也檢查壞味道，如果品質不佳，請對 AI 說：「請針對 [特定痛點] 再深化價值的描述。」
+    - system prompts: docs/template/gemini-gem-PM-3-userstory-prompts.md
+
+- **對話模式選擇**：
+    - **模式 A（結構化 OST）**：
+        - 貼上 OST 報告至 Gemini Gem PM-3-User Story 助手
+        - 範例對話：「這是最終版方案，請參考 (docs/reference/step2-ost-v2-focus.md)，跟我討論 User Story」
+
+    - **模式 B（自由對話）**：
+        - 直接說出想法，Gem 會提 4 個深層提問：使用者角色、優先級條件、使用情境、價值與成功
+        - 無需提供 OST 報告
+
+- 回答 AI 詢問的問題，檢查壞味道
+    - 如品質不佳，請對 AI 說：「請針對 [特定痛點] 再深化價值的描述」
+
 - 經過對話，複製最終版的 User Story 至
-    - User Story 結果：
-    - docs/practices/sciwork-20251213/step3-userstory-v1.md
-- 回填：User Story 結果貼在「小組 Google Sheet」。
+    - docs/lab-20260307/step3-userstory-v1.md
+
+- 回填：User Story 結果貼在「小組 Google Sheet」
 
 ### 筆記
-User Story 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版本
+- User Story 不要使用一次性的結果，請多跟 AI 對談，收斂出最終版本
+- **v2 支援雙軌模式**：可選 OST 結構化輸入或自由想法對話，彈性配合不同工作流程
 
 ## Step 4 試試是否可以透過 AI Agent 編輯
 
