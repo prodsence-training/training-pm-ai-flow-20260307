@@ -107,23 +107,26 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 ## Step 5 Acceptance Criteria
 
 ### Given
-1, 已有 docs/reference/step3-userstory-v1.md
+1, 已有 `docs/lab-20260307/step3-userstory-v1.md`
 
 ### 操作
 
-- **打開 AI IDE (Cursor)**
+- **打開 AI IDE (Antigravity Claude Code / Cursor)**
 
 - **對話**
-    - 已分析完需求，User Story 在 docs/reference/step3-userstory-v1.md，請根據系統架構跟專案知識並按照 docs/template/acceptance-criteria-guide.md 的指引跟我討論 Acceptance Criteria
+    - 「我已經討論好的 User Story 在 `@docs/lab-20260307/step3-userstory-v1.md`，接下來請跟我討論 Acceptance Criteria。
 
-- **人工審查**
-    - 確認每一個條件是否如你預期
-- **存檔 (Output)**：
-    - @docs/practices/sciwork-20251213/step4-ac.md
-    - **Action:** 貼回「小組 Google Sheet」。
+- **釐清階段 (Clarification First)**
+    - AI 會針對系統限制、邊界條件、異常狀況提出 3-6 個問題。
+
+- **人工審查與產出 (Output)**
+    - 確認 Mapping Table 覆蓋了所有 Story 需求點。
+    - 正式產出 Gherkin 格式的 AC 文件：`docs/lab-20260307/step4-ac-v1.md`
 
 ### 筆記
-不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版本
+- **不要直接生成 AC**：透過對話釐清系統限制，讓 AI 一步一步引導你完成 AC 的討論
+- **Gherkin 格式**：使用 Given-When-Then 讓規格可測試且業務邏輯清晰。
+- **系統限制對齊**：在產出 AC 前，先對齊系統限制，再產出規格。
 
 ## Step 6 PRD Draft
 
