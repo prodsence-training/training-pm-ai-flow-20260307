@@ -9,7 +9,7 @@
 | 階段 | 課程步驟 | 主要工具 | 用途 |
 |------|---------|---------|------|
 | **產品探索** | Step 1 ~ Step 3 | Gen AI 對話工具 | 痛點分析、機會評估、用戶故事 |
-| **規格實現** | Step 4 ~ Step 7 | AI IDE| 驗收標準、PRD、實現驗證 |
+| **規格實現** | Step 4 ~ Step 7 | AI IDE| 驗收標準、PRD、製作原型 |
 
 ---
 
@@ -230,9 +230,7 @@ git status
 
 ## 🐳 啟動課程示範應用（Docker）
 
-課堂上會用一個 Jira Dashboard 示範應用來說明規格驅動開發的成果。以下步驟教你如何在自己的電腦上啟動它。
-
-> 💡 啟動示範應用的操作會在課堂上帶著做，課前只需確認 Docker Desktop 已安裝並能正常開啟即可。
+這堂課會用一個 **Jira Dashboard** 作為示範的產品，作為既有產品的基底（模擬現實世界的常態）。以下步驟教你如何在自己的電腦上啟動這個示範應用。
 
 ### 啟動步驟
 
@@ -246,11 +244,8 @@ git status
 # 進入專案資料夾（請改成你實際的路徑）
 cd ~/Demo/training-pm-ai-flow-20260307
 
-# 推薦：使用預構建版本（最快）
+# 執行此指令啟動應用
 docker-compose -f docker-compose.prod.yml up
-
-# 或使用預設版本（首次會較慢，需要構建 images）
-docker-compose up
 ```
 
 #### Windows
@@ -261,11 +256,8 @@ docker-compose up
 # 進入專案資料夾（請改成你實際的路徑）
 cd $HOME\Demo\training-pm-ai-flow-20260307
 
-# 推薦：使用預構建版本（最快）
+# 執行此指令啟動應用
 docker-compose -f docker-compose.prod.yml up
-
-# 或使用預設版本（首次會較慢，需要構建 images）
-docker-compose up
 ```
 
 ### 確認啟動成功
@@ -291,19 +283,6 @@ docker-compose -f docker-compose.prod.yml down
 # 或使用預設版本時
 docker-compose down
 ```
-
-### ✅ 預構建 Images 已上傳至 Docker Hub
-
-**好消息**：你 **無需等待構建**！
-
-預構建的 images 已經上傳到 Docker Hub（講師已準備）：
-- Backend: `docker.io/juggernautliu/training-pm-ai-flow:backend-v1.0`
-- Frontend: `docker.io/juggernautliu/training-pm-ai-flow:frontend-v1.0`
-
-執行 `docker-compose -f docker-compose.prod.yml up` 時，Docker 會自動從 Docker Hub **拉取 images**（**無需登入，無需構建**）。
-
-> 💡 **首次啟動時間**：1-2 分鐘（自動拉取 images）
-> 💡 **後續啟動時間**：幾秒鐘（images 已存在本機）
 
 ---
 
@@ -374,7 +353,7 @@ Ctrl + C
 
 ### Q3: 示範應用啟動很慢？
 
-**A**: 第一次啟動需要下載必要的檔案，視網路速度可能需要 5-10 分鐘，請耐心等待。第二次啟動會快很多。
+**A**: 首次啟動時 Docker 會從 Docker Hub 拉取預構建的 images，視網路速度約需 1-2 分鐘。第二次啟動會快很多（幾秒鐘），因為 images 已存在本機。
 
 ### Q4: Antigravity 免費額度用完了怎麼辦？
 
@@ -409,6 +388,10 @@ Ctrl + C
 **課程示範專案**
 - [ ] 已下載專案到電腦上（三種方式擇一）
 - [ ] 記得專案資料夾的存放位置
+
+**課程示範應用（Docker）**
+- [ ] 已執行 `docker-compose -f docker-compose.prod.yml up`
+- [ ] 已在瀏覽器看到 Jira Dashboard 應用畫面（http://localhost:3000）
 
 **課程討論區**
 - [ ] 已加入 [Discord](https://discord.gg/UBmFFW54Rh)
