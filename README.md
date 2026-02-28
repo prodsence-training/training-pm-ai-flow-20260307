@@ -131,11 +131,9 @@ Docker Compose version 2.0+
 > 💡 **您無需安裝 Node.js 或 Python**
 > 所有依賴都已包含在 Docker 容器中
 
-### 方法 1: 使用 Docker Compose（推薦）
+### 🚀 推薦方式：課堂快速啟動（使用預構建版本）
 
-#### 📱 模式 1: 快速示範（Demo Mode / 教學課堂）
-
-**適用對象**：產品經理學員、演示環境
+**適用對象**：PM 學員、課堂演示
 
 最簡單的方式，使用預構建的 images 一鍵啟動完整應用：
 
@@ -159,15 +157,18 @@ docker-compose -f docker-compose.prod.yml down
 > - 啟動速度快（1-2 分鐘）
 > - 無需本地構建
 > - 從 Docker Hub 自動拉取預構建 images
+> - 完全無需修改代碼
 
 > 📦 **Images 來源**：
 > - Backend: `docker.io/juggernautliu/training-pm-ai-flow:backend-v1.0`
 > - Frontend: `docker.io/juggernautliu/training-pm-ai-flow:frontend-v1.0`
 > - 公開倉庫，無需登入
 
-#### 💻 模式 2: 快速開發（Rapid Development）
+---
 
-**適用對象**：工程師開發環境
+### 📝 開發人員選項
+
+#### 模式 2: 本地開發（Rapid Development）
 
 首次啟動會自動構建 images，支援代碼熱重載：
 
@@ -191,9 +192,7 @@ docker-compose down
 
 ---
 
-#### 🛠️ 模式 3: 開發模式（Development Mode with Playwright）
-
-**適用對象**：需要測試和 hot reload 的開發環境
+#### 模式 3: 開發模式（Development Mode with Playwright）
 
 包含 Playwright 瀏覽器測試環境：
 
@@ -420,29 +419,35 @@ training-pm-ai-flow-20260307/
 │   ├── .env.example        # 環境變數範本
 │   └── requirements.txt    # Python 依賴
 │
-├── 📋 specs/               # 功能規格文件
-│   └── 001-jira-dashboard-mvp/
-│       ├── spec.md         # 完整功能規格
-│       ├── testcases.md    # 驗收標準
-│       └── data-model.md   # 資料模型說明
-│
 ├── 📚 docs/                # 教學文件
-│   ├── template/           # 規格編寫模板
-│   ├── reference/          # 參考資料
-│   ├── tech-overview.md    # 技術架構說明
-│   ├── chat-note/          # 工作坊筆記
-│   └── prototype/          # Prototype 示例
+│   ├── template/           # PM 工作流程 Skill 模板
+│   │   ├── PainAnalysis-SKILL.md              # Step 1: 痛點分析助手
+│   │   ├── OpportunitySolutionTree-SKILL.md   # Step 2: OST 探索助手
+│   │   ├── UserStory-SKILL.md                 # Step 3: User Story 拆解助手
+│   │   ├── feature-spec-template-v2.md        # 功能規格編寫範本
+│   │   ├── acceptance-criteria-guide.md       # AC 驗收條件指南
+│   │   └── prototype-guide.md                 # Prototype 編寫指南
+│   │
+│   ├── reference/          # 參考文檔
+│   │   ├── PRD.md                    # 完整產品規格書
+│   │   ├── step0-painpoint-ref.md    # 痛點案例參考
+│   │   ├── 002-ScopeChangeWaterfallWidget.md  # 範例功能規格
+│   │   ├── tech-overview.md          # 技術架構說明
+│   │   └── table-schema.md           # 資料結構定義
+│   │
+│   └── prototype/          # 原型示例
 │
-├── docker-compose.yml      # 示範模式（給學員用）
-├── docker-compose.dev.yml  # 開發模式（給您修改用）
-└── README.md               # 本檔案
+├── docker-compose.yml         # 示範模式（給學員用）
+├── docker-compose.dev.yml     # 開發模式（開發人員用）
+├── docker-compose.prod.yml    # 課堂快速啟動（預構建版本）
+└── README.md                  # 本檔案
 ```
 
 **給 PM 學員的重點**：
 - 🎯 **frontend/** - 看得到的儀表板界面
 - 🎯 **backend/** - 資料處理和計算邏輯
-- 🎯 **specs/** - 功能需求和驗收標準
-- 🎯 **docs/** - 規格編寫範本和教學資料
+- 🎯 **docs/template/** - PM 工作流程 Skill 助手（Step 1-3）
+- 🎯 **docs/reference/** - 完整功能規格、技術架構、資料結構
 
 ## 環境變數
 
@@ -514,15 +519,40 @@ lsof -i :3000   # 前端
 kill -9 <PID>
 ```
 
-## 規格文件
+## 📖 PM 工作流程指南
 
-完整的功能規格和實作細節請參考：
+本課程提供一套完整的 **AI 協作式產品探索流程**，從痛點分析到規格撰寫：
 
-- [spec.md](./specs/001-jira-dashboard-mvp/spec.md) - 功能規格
-- [plan.md](./specs/001-jira-dashboard-mvp/plan.md) - 實作計畫
-- [tasks.md](./specs/001-jira-dashboard-mvp/tasks.md) - 任務列表
-- [data-model.md](./specs/001-jira-dashboard-mvp/data-model.md) - 資料模型
-- [quickstart.md](./specs/001-jira-dashboard-mvp/quickstart.md) - 快速開始指南
+### Step 1: 痛點分析
+- **工具**: [docs/template/PainAnalysis-SKILL.md](./docs/template/PainAnalysis-SKILL.md)
+- **目的**: 深入理解使用者問題，而非跳到解法
+- **輸出**: 結構化的問題假設報告
+
+### Step 2: 機會探索（OST）
+- **工具**: [docs/template/OpportunitySolutionTree-SKILL.md](./docs/template/OpportunitySolutionTree-SKILL.md)
+- **目的**: 探索完整的機會與解法空間
+- **輸出**: Outcome → Opportunities → Solutions → Experiments
+
+### Step 3: User Story 拆解
+- **工具**: [docs/template/UserStory-SKILL.md](./docs/template/UserStory-SKILL.md)
+- **目的**: 將解法拆解成真實反映使用者意圖的故事
+- **輸出**: 結構化的 User Stories
+
+### Step 4：驗收條件（AC）
+- **工具**: [docs/template/acceptance-criteria-SKILL.md](./docs/template/acceptance-criteria-SKILL.md)
+- **目的**: 透過「釐清對談」定義明確的驗收條件（Gherkin 格式）
+- **輸出**: Acceptance Criteria scenarios 與 Story → AC 對應表
+
+### Step 5：規格撰寫（PRD）
+- **工具**: [docs/skills/PRD.skill](./docs/skills/PRD.skill)
+- **目的**: 整合前四步成果，透過逐題澄清確認所有關鍵決策
+- **輸出**: 完整的 PRD 規格文檔
+
+### 參考資料
+- [PRD.md](./docs/reference/PRD.md) - 完整產品規格書範例
+- [tech-overview.md](./docs/reference/tech-overview.md) - 技術架構與資料模型
+- [table-schema.md](./docs/reference/table-schema.md) - Google Sheets 資料結構定義
+- [prototype-guide.md](./docs/template/prototype-guide.md) - Prototype 編寫指南
 
 ## 授權
 
