@@ -200,13 +200,15 @@ git status
 
 ---
 
-### 方式三：從 Google Drive 下載
+### 方式三：從 GitHub 直接下載 ZIP
 
 如果上面兩種方式都不方便，也可以直接下載壓縮檔。
 
-👉 **下載連結**：（待補充）
+👉 **下載連結**：[training-pm-ai-flow-20260307.zip](https://github.com/prodsence-training/training-pm-ai-flow-20260307/archive/refs/heads/main.zip)
 
 下載後解壓縮，將資料夾放到你方便找到的位置（例如 Demo 資料夾）。
+
+> ⚠️ **重要提醒**：用此方式的學員，**請在課前一天再次下載最新版本**，確保你使用的是最新的課程內容。講師會根據學員反饋持續更新課程教材，所以務必確保版本是最新的。
 
 ---
 
@@ -218,10 +220,11 @@ git status
 
 ```
 📂 training-pm-ai-flow-20260307    ← 用 Antigravity 打開這個資料夾
-├── docs/          ← 課程教材和範本
+├── docs/          ← 課程教材和範本（你主要會用這個）
+│   ├── template/  ← PM 工作流程 Skill（Step 1-5）
+│   └── reference/ ← 參考範例和產出
 ├── frontend/      ← 示範應用的前端（不用管）
-├── backend/       ← 示範應用的後端（不用管）
-└── specs/         ← 規格文件
+└── backend/       ← 示範應用的後端（不用管）
 ```
 
 > 你只需要關注 `docs/` 這個資料夾，其他都是示範用的技術檔案。
@@ -315,25 +318,23 @@ Ctrl + C
 
 | 位置 | 說明 |
 |------|------|
-| `docs/chat-note/student-workbook.md` | **👉 學員工作手冊（必看）** |
-| `docs/reference/` | 每個 Step 的參考範例和產出 |
-| `docs/template/` | 課程使用的 Prompt 範本 |
-| `docs/lab-jugg-example/` | 講師的完整實例演示 |
-| `.agents/skills/` | **AI Agent Skills — Step 4~7 在 Antigravity 中使用** |
+| `docs/template/` | **👉 PM 工作流程 Skill（Step 1-5）** |
+| `docs/reference/` | 參考範例、完整產品規格和案例 |
+| `docs/chat-note/student-workbook.md` | 學員工作手冊 |
 
-#### AI Agent Skills（`.agents/skills/`）
+#### PM 工作流程 Skill（`docs/template/`）
 
-這個資料夾放的是課程 Step 4~7 中，讓 AI IDE 使用的「技能包」。每個 Skill 對應課程的一個步驟：
+這個資料夾放的是課程 5 個步驟的 Skill 文檔。每個 Skill 對應課程的一個步驟：
 
-| Skill | 對應 Step | 用途 |
-|-------|----------|------|
-| `PainAnalysis/` | Step 1 | 痛點分析（參考用） |
-| `OpportunitySolutionTree/` | Step 2 | 機會規模評估（參考用） |
-| `UserStory/` | Step 3 | 用戶故事撰寫（參考用） |
-| `AcceptanceCriteria/` | Step 5 | 驗收標準撰寫 |
-| `PRD/` | Step 6 | 產品需求文件撰寫 |
+| Skill 檔案 | 對應 Step | 用途 |
+|----------|----------|------|
+| `PainAnalysis-SKILL.md` | Step 1 | 痛點分析助手 |
+| `OpportunitySolutionTree-SKILL.md` | Step 2 | 機會規模評估助手 |
+| `UserStory-SKILL.md` | Step 3 | 用戶故事拆解助手 |
+| `acceptance-criteria-SKILL.md` | Step 4 | 驗收標準撰寫助手 |
+| 在 Antigravity 中使用 PRD Skill | Step 5 | 產品需求文件撰寫助手 |
 
-> 你不需要手動打開這些檔案。在 Antigravity 中操作時，AI 會自動讀取這些 Skills 來輔助你完成工作。課堂上會說明如何使用。
+> 課堂上會說明如何在對應的工具中使用這些 Skills 來協助你完成工作。
 
 ---
 
