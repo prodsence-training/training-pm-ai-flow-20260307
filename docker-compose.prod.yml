@@ -1,0 +1,32 @@
+version: '3.8'
+
+# 生產環境配置 - 使用 Pre-built Images（不重新 build）
+# 使用前請先執行: scripts/build-docker.sh v1.0
+# 或直接使用 pre-built image: docker-compose -f docker-compose.prod.yml up
+
+services:
+  backend:
+    image: docker.io/juggernautliu/training-pm-ai-flow:backend-v1.0
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - jira-dashboard-network
+    restart: unless-stopped
+
+  frontend:
+    image: docker.io/juggernautliu/training-pm-ai-flow:frontend-v1.0
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    networks:
+      - jira-dashboard-network
+    restart: unless-stopped
+
+networks:
+  jira-dashboard-network:
+    driver: bridge

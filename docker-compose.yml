@@ -1,5 +1,9 @@
 version: '3.8'
 
+# 快速開發環境配置 - 即時構建
+# 使用: docker-compose up
+# 首次會自動 build images，之後可以重複使用
+
 services:
   backend:
     build:

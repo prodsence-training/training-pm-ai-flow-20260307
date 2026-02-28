@@ -165,7 +165,7 @@ cd $HOME\Demo
 git clone https://github.com/prodsence-training/training-pm-ai-flow-20260307.git
 ```
 
-完成後，你的桌面上會出現一個 `training-pm-ai-flow-20260307` 資料夾。
+完成後，你的 Demo 資料夾上會出現一個 `training-pm-ai-flow-20260307` 資料夾。
 
 > 💡 如果想放到其他位置（例如「文件」資料夾），把第一行改成 `cd $HOME\Documents`
 
@@ -246,8 +246,11 @@ git status
 # 進入專案資料夾（請改成你實際的路徑）
 cd ~/Demo/training-pm-ai-flow-20260307
 
-# 啟動示範應用
-docker compose up
+# 推薦：使用預構建版本（最快）
+docker-compose -f docker-compose.prod.yml up
+
+# 或使用預設版本（首次會較慢，需要構建 images）
+docker-compose up
 ```
 
 #### Windows
@@ -258,24 +261,71 @@ docker compose up
 # 進入專案資料夾（請改成你實際的路徑）
 cd $HOME\Demo\training-pm-ai-flow-20260307
 
-# 啟動示範應用
-docker compose up
+# 推薦：使用預構建版本（最快）
+docker-compose -f docker-compose.prod.yml up
+
+# 或使用預設版本（首次會較慢，需要構建 images）
+docker-compose up
 ```
 
 ### 確認啟動成功
 
-等待畫面上的訊息跑完後（第一次需要 5-10 分鐘），打開瀏覽器訪問：
+等待畫面上的訊息跑完後，打開瀏覽器訪問：
 
 👉 **http://localhost:3000**
 
 看到 Jira Dashboard 頁面就表示成功了！
+
+**預期時間**：
+- ✅ **預構建版本**：1-2 分鐘
+- ⚠️ **首次構建版本**：5-10 分鐘（取決於網路速度）
 
 ### 停止應用
 
 在 Terminal / PowerShell 按 `Ctrl + C`，然後執行：
 
 ```bash
-docker compose down
+# 使用預構建版本時
+docker-compose -f docker-compose.prod.yml down
+
+# 或使用預設版本時
+docker-compose down
+```
+
+### ✅ 預構建 Images 已上傳至 Docker Hub
+
+**好消息**：你 **無需等待構建**！
+
+預構建的 images 已經上傳到 Docker Hub（講師已準備）：
+- Backend: `docker.io/juggernautliu/training-pm-ai-flow:backend-v1.0`
+- Frontend: `docker.io/juggernautliu/training-pm-ai-flow:frontend-v1.0`
+
+執行 `docker-compose -f docker-compose.prod.yml up` 時，Docker 會自動從 Docker Hub **拉取 images**（**無需登入，無需構建**）。
+
+> 💡 **首次啟動時間**：1-2 分鐘（自動拉取 images）
+> 💡 **後續啟動時間**：幾秒鐘（images 已存在本機）
+
+---
+
+## ⚡ 課堂快速指令
+
+把這三行指令存下來，課堂上就只需要這些：
+
+### 1️⃣ 啟動應用
+```bash
+docker-compose -f docker-compose.prod.yml up
+```
+
+### 2️⃣ 訪問儀表板
+打開瀏覽器，輸入：
+```
+http://localhost:3000
+```
+
+### 3️⃣ 關閉應用
+在 Terminal / PowerShell 按：
+```
+Ctrl + C
 ```
 
 ---

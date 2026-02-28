@@ -1,4 +1,25 @@
 # Sciwork 工作坊 操作步驟
+
+---
+
+## ⚡ 課堂快速指令（保存此頁面！）
+
+### 啟動示範應用
+
+```bash
+docker-compose -f docker-compose.prod.yml up
+```
+
+### 訪問儀表板
+
+瀏覽器打開：`http://localhost:3000`
+
+### 關閉應用
+
+Terminal 按 `Ctrl + C`
+
+---
+
 ## Step 0 AI IDE 練習讓 Agent 編輯程式
 1, 這是第一個請 Agent 幫我編輯程式的練習
 請在 @AI-IDE-practice-notes.md 放入我的名字跟日期
@@ -235,6 +256,38 @@ Agent 會自動執行以下技術操作，學員只需確認結果：
 > 3. 遇到問題時告訴 Agent（例如「打開是空的」）
 >
 > Agent 會自己處理技術細節，包括除錯和修復。
+
+---
+
+## 課堂快速啟動
+
+> 📌 **給 PM 學員**：你只需要看著現有系統運行。最快的方式是使用預構建版本。
+
+### 課堂啟動（推薦 ⭐）
+
+```bash
+# 進入專案資料夾
+cd training-pm-ai-flow-20260307
+
+# 啟動預構建版本（最快）
+docker-compose -f docker-compose.prod.yml up
+```
+
+✅ **優點**：
+- 不需要重新構建，啟動快
+- 適合課堂演示和教學環境
+
+### 首次使用前提準備（講師或開發者執行一次）
+
+如果是第一次使用，講師可能需要先構建 images：
+
+```bash
+# 構建預構建版本的 images（一次性）
+./scripts/build-docker.sh v1.0
+
+# 之後課堂上就可以快速啟動
+docker-compose -f docker-compose.prod.yml up
+```
 
 ---
 
