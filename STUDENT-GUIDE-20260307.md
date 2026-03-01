@@ -198,12 +198,14 @@ git status
 > 👉 [Antigravity 快速開始指南](https://www.youtube.com/watch?v=WM1H2UFnCsw)
 >
 > 請先看完入門影片，裡面會示範如何在 Antigravity 中 Clone Repository。
+>
+> ⚠️ **重要提醒**：影片中示範的是 Antigravity 的操作方式（以其他 repo 為例）。**你務必 clone 下面的課程專案網址**，而非影片中的示範 repo。
 
 **簡單步驟**：
 
 1. 打開 Antigravity
 2. 選擇「Clone Repository」或「Open from GitHub」
-3. 貼上專案網址：`https://github.com/prodsence-training/training-pm-ai-flow-20260307.git`
+3. **貼上本課程的專案網址**：`https://github.com/prodsence-training/training-pm-ai-flow-20260307.git`
 4. 選擇存放位置（建議放在桌面或文件資料夾）
 5. 完成後 Antigravity 會自動打開專案
 
