@@ -99,6 +99,11 @@ Docker 是用來**一鍵啟動課程示範應用**的工具。你不需要了解
 - **Mac**：[下載 Docker Desktop for Mac](https://www.docker.com/products/docker-desktop)
 - **Windows**：[下載 Docker Desktop for Windows](https://www.docker.com/products/docker-desktop)
 
+> **授權說明**：
+> - 個人和小團隊使用 **Docker Personal Free 方案完全免費**
+> - 或直接使用，**不需要登入帳號也能正常使用**
+> - 根據你的情況自由選擇即可
+
 下載後按照安裝精靈完成安裝即可。
 
 #### 確認 Docker 已準備好
@@ -234,6 +239,15 @@ git status
 ## 🐳 啟動課程示範應用（Docker）
 
 這堂課會用一個 **Jira Dashboard** 作為示範的產品，作為既有產品的基底（模擬現實世界的常態）。以下步驟教你如何在自己的電腦上啟動這個示範應用。
+
+### 準備步驟
+
+首次啟動前，需要準備環境變數檔案。進入專案資料夾後，依照以下步驟操作：
+
+1. 進入 `backend` 資料夾，複製 `.env.example` 檔案，改名為 `.env`
+2. 進入 `frontend` 資料夾，複製 `.env.example` 檔案，改名為 `.env`
+
+> 🎯 **簡單說明**：環境變數檔案告訴應用程式如何連接到資料庫、設定各種參數。因為敏感資訊不會上傳到 GitHub，所以需要你手動複製一份。
 
 ### 啟動步驟
 

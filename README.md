@@ -128,6 +128,12 @@ Docker Compose version 2.0+
 - Docker 20.10+
 - Docker Compose 2.0+
 
+**下載 Docker Desktop**：https://www.docker.com/products/docker-desktop/
+
+> ℹ️ **授權說明**：
+> - 可以使用 **Docker Personal Free** 方案（個人或小團隊使用免費）
+> - 或直接使用，**不需要登入帳號也能使用**
+
 > 💡 **您無需安裝 Node.js 或 Python**
 > 所有依賴都已包含在 Docker 容器中
 
