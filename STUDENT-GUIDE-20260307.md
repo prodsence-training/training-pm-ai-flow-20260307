@@ -193,15 +193,19 @@ git status
 
 如果你已經安裝好 Antigravity，可以直接在 IDE 裡面下載專案。
 
-**步驟**：
+> 🎬 **Antigravity 操作入門影片**：
+>
+> 👉 [Antigravity 快速開始指南](https://www.youtube.com/watch?v=WM1H2UFnCsw)
+>
+> 請先看完入門影片，裡面會示範如何在 Antigravity 中 Clone Repository。
+
+**簡單步驟**：
 
 1. 打開 Antigravity
-2. 選擇「Clone Repository」（或類似的 Clone 選項）
+2. 選擇「Clone Repository」或「Open from GitHub」
 3. 貼上專案網址：`https://github.com/prodsence-training/training-pm-ai-flow-20260307.git`
 4. 選擇存放位置（建議放在桌面或文件資料夾）
 5. 完成後 Antigravity 會自動打開專案
-
-> 📸 **詳細截圖步驟**（待補充）
 
 ---
 
