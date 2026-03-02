@@ -105,6 +105,12 @@ Docker 是用來**一鍵啟動課程示範應用**的工具。你不需要了解
 
 下載後按照安裝精靈完成安裝即可。
 
+> ⚠️ **Mac 使用者注意 — macOS 版本相容性**：
+> - 目前最新版 Docker Desktop 需要 **macOS 14（Sonoma）以上**
+> - 如果你的 Mac 系統是 **macOS 13（Ventura）或更舊**，最新版無法安裝
+> - 請到 [Docker Desktop Release Notes](https://docs.docker.com/desktop/release-notes/) 頁面，往下找到支援你 macOS 版本的舊版 Docker Desktop 下載安裝
+> - 不確定自己的 macOS 版本？點左上角  → 「關於這台 Mac」即可查看
+
 #### 確認 Docker 已準備好
 
 安裝完成後，**打開 Docker Desktop 應用程式**：
@@ -121,6 +127,53 @@ Docker 是用來**一鍵啟動課程示範應用**的工具。你不需要了解
 ## 🚀 取得課程示範專案
 
 以下三種方式擇一即可。取得後的資料夾，就是之後課堂上用 Antigravity 打開的專案位置。
+
+### ⚠️ 前置步驟：安裝 Git（方式一、方式二都需要）
+
+方式一和方式二都需要你的電腦上有安裝 **Git**。大部分電腦預設沒有安裝，請先完成此步驟。
+
+> **💡 不想安裝 Git？** 可以直接跳到「方式三：從 GitHub 直接下載 ZIP」，不需要安裝任何東西也能取得專案。
+
+#### Mac（選擇以下其中一種方式）
+
+**方式 A — 命令行安裝（推薦，Apple 官方方式）**：
+
+打開 Terminal（`⌘ Command + Space` → 輸入 "Terminal"），執行：
+```bash
+xcode-select --install
+```
+然後按照提示完成安裝。
+
+> **這個套件是什麼？**
+>
+> `xcode-select --install` 會安裝「Xcode Command Line Tools」— 這是 Apple 官方提供的開發者工具套件，包含 Git 等常用工具。這是 macOS 上標準的開發環境基礎設施。
+>
+> **可以移除嗎？**
+>
+> 可以。如果不需要，執行以下指令移除：
+> ```bash
+> sudo rm -rf /Library/Developer/CommandLineTools
+> ```
+>
+> 但移除後 Git 也會一併移除，若要再用就需要重新安裝。
+
+**方式 B — 直接下載安裝（輕量級）**：
+
+👉 前往 [https://git-scm.com/download/mac](https://git-scm.com/download/mac) 下載 macOS 版本，雙擊安裝即可。
+
+#### Windows
+
+👉 前往 [Git 官方下載頁面](https://git-scm.com/downloads/win) 下載 Windows 版本，按照安裝精靈完成安裝即可。
+
+#### 驗證 Git 安裝成功
+
+在 Terminal（Mac）或 PowerShell（Windows）執行：
+```bash
+git --version
+```
+看到版本號（例如 `git version 2.x.x`）就表示安裝成功了。
+
+---
 
 ### 方式一：使用 Terminal 指令（推薦）
 
@@ -182,9 +235,7 @@ git status
 
 看到 `On branch main` 就表示成功了。
 
-> ⚠️ 如果出現 `git: command not found` 或類似錯誤，表示你的電腦尚未安裝 Git。
-> - **Mac**：在 Terminal 執行 `xcode-select --install`，按照提示安裝
-> - **Windows**：前往 [https://git-scm.com/downloads](https://git-scm.com/downloads) 下載安裝
+> ⚠️ 如果出現 `git: command not found` 或類似錯誤，表示你的電腦尚未安裝 Git。請回到上方的「前置步驟：安裝 Git」完成安裝。
 
 ---
 
@@ -192,41 +243,7 @@ git status
 
 如果你已經安裝好 Antigravity，可以直接在 IDE 裡面下載專案。
 
-#### ⚠️ 前置要求：安裝 Git
-
-**重要**：Antigravity 的 Clone Repository 功能需要你的電腦上已安裝 Git。如果你是全新的電腦或尚未安裝 Git，請先按以下步驟安裝：
-
-**Mac**（選擇以下其中一種方式）：
-
-**方式 A - 命令行安裝（推薦，Apple 官方方式）**：
-```bash
-# 打開 Terminal，執行此指令
-xcode-select --install
-```
-然後按照提示完成安裝。
-
-> **這個套件是什麼？**
->
-> `xcode-select --install` 會安裝「Xcode Command Line Tools」— 這是 Apple 官方提供的開發者工具套件，包含 Git、編譯器、Python 等常用開發工具。這是 macOS 上標準的開發環境基礎設施。
->
-> **可以移除嗎？**
->
-> 可以。如果不需要，執行以下指令移除：
-> ```bash
-> sudo rm -rf /Library/Developer/CommandLineTools
-> ```
->
-> 但移除後 Git 也會一併移除，若要再用 Antigravity Clone 就需要重新安裝。
-
-**方式 B - 直接下載安裝（輕量級）**：
-👉 前往 [https://git-scm.com/download/mac](https://git-scm.com/download/mac) 下載 macOS 版本，雙擊安裝即可。
-
-**Windows**：
-👉 前往 [Git 官方下載頁面](https://git-scm.com/downloads) 下載 Windows 版本，按照安裝精靈完成安裝即可。
-
-> 驗證安裝成功：在 Terminal/PowerShell 執行 `git --version`，如果看到版本號就表示成功了。
-
-> **💡 不想安裝 Git？** 本課程不需要執行任何 git 操作，你可以直接使用方式三（ZIP 下載）來取得專案，同樣可以正常進行課程。
+> ⚠️ 此方式需要已安裝 Git（見上方「前置步驟：安裝 Git」）。
 
 #### 使用 Antigravity Clone 專案
 
@@ -301,7 +318,7 @@ xcode-select --install
 cd ~/Demo/training-pm-ai-flow-20260307
 
 # 執行此指令啟動應用
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 #### Windows
@@ -313,7 +330,7 @@ docker-compose -f docker-compose.prod.yml up
 cd $HOME\Demo\training-pm-ai-flow-20260307
 
 # 執行此指令啟動應用
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ### 確認啟動成功
@@ -334,10 +351,10 @@ docker-compose -f docker-compose.prod.yml up
 
 ```bash
 # 使用預構建版本時
-docker-compose -f docker-compose.prod.yml down
+docker compose -f docker-compose.prod.yml down
 
 # 或使用預設版本時
-docker-compose down
+docker compose down
 ```
 
 ---
@@ -348,7 +365,7 @@ docker-compose down
 
 ### 1️⃣ 啟動應用
 ```bash
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ### 2️⃣ 訪問儀表板
@@ -409,7 +426,38 @@ Ctrl + C
 
 **A**: 首次啟動時 Docker 會從 Docker Hub 拉取預構建的 images，視網路速度約需 1-2 分鐘。第二次啟動會快很多（幾秒鐘），因為 images 已存在本機。
 
-### Q4: Antigravity 免費額度用完了怎麼辦？
+### Q4: 啟動 Docker 時出現 Port 3000 已被佔用的錯誤？
+
+**A**: 這表示你的電腦上有其他程式正在使用 Port 3000。需要先關閉佔用的程式：
+
+**Mac**（打開 Terminal 執行）：
+```bash
+# 找出誰在用 Port 3000
+lsof -i :3000
+
+# 會顯示類似這樣的結果：
+# COMMAND   PID   USER   ...
+# node      1234  yourname ...
+
+# 用顯示的 PID 數字關閉它（把 1234 換成你看到的數字）
+kill -9 1234
+```
+
+**Windows**（打開 PowerShell 執行）：
+```powershell
+# 找出誰在用 Port 3000
+netstat -ano | findstr :3000
+
+# 會顯示類似這樣的結果，最後一欄是 PID：
+# TCP  0.0.0.0:3000  0.0.0.0:0  LISTENING  1234
+
+# 用顯示的 PID 數字關閉它（把 1234 換成你看到的數字）
+taskkill /PID 1234 /F
+```
+
+關閉後重新執行 `docker compose -f docker-compose.prod.yml up` 即可。
+
+### Q5: Antigravity 免費額度用完了怎麼辦？
 
 **A**: Antigravity 的額度是按模型分開計算的，有幾種應對方式：
 1. **省著用** — 優先使用 **Fast Mode（Gemini 3 Flash）**，額度消耗較少
@@ -418,20 +466,13 @@ Ctrl + C
 4. **升級方案** — 訂閱 Google AI Pro（額度約每 5 小時刷新）
 5. **替代工具** — 暫時使用其他 AI IDE（如 Cursor）
 
-### Q5: 沒有 Google 帳號怎麼辦？
+### Q6: 沒有 Google 帳號怎麼辦？
 
 **A**: 課程 Step 1~3 需要使用 Gemini（需要 Google 帳號）。如果不方便申請，可以使用 ChatGPT 或 Claude 作為替代，但 System Instructions 可能需要自行調整。
 
-### Q6: 使用 Antigravity 時無法執行 Clone Repository？
+### Q7: 使用 Terminal 或 Antigravity 時出現 git 相關錯誤？
 
-**A**: 這通常是因為你的電腦尚未安裝 Git。請先安裝 Git：
-
-- **Mac**：
-  - 方式 A：在 Terminal 執行 `xcode-select --install`，按照提示安裝
-  - 方式 B：前往 [https://git-scm.com/download/mac](https://git-scm.com/download/mac) 下載安裝（輕量級，只裝 Git）
-- **Windows**：前往 [https://git-scm.com/downloads](https://git-scm.com/downloads) 下載安裝
-
-安裝完成後，Antigravity 就能正常 clone 專案了。
+**A**: 這通常是因為你的電腦尚未安裝 Git。請參考上方「取得課程示範專案」章節中的「**前置步驟：安裝 Git**」完成安裝。如果不想安裝 Git，可以使用「方式三：從 GitHub 直接下載 ZIP」取得專案。
 
 ---
 
@@ -451,11 +492,12 @@ Ctrl + C
 - [ ] Docker Desktop 能正常開啟（左下角顯示綠色圖示）
 
 **課程示範專案**
+- [ ] 已安裝 Git（執行 `git --version` 能看到版本號），或選擇用 ZIP 下載
 - [ ] 已下載專案到電腦上（三種方式擇一）
 - [ ] 記得專案資料夾的存放位置
 
 **課程示範應用（Docker）**
-- [ ] 已執行 `docker-compose -f docker-compose.prod.yml up`
+- [ ] 已執行 `docker compose -f docker-compose.prod.yml up`
 - [ ] 已在瀏覽器看到 Jira Dashboard 應用畫面（http://localhost:3000）
 
 **課程討論區**
