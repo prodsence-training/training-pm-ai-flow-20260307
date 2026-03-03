@@ -141,13 +141,12 @@ function ProgressBar({
       </div>
       <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden relative">
         <div
-          className={`h-full rounded-full transition-all duration-500 ${
-            color === 'blue'
+          className={`h-full rounded-full transition-all duration-500 ${color === 'blue'
               ? 'bg-blue-400'
               : color === 'green'
-              ? 'bg-green-500'
-              : 'bg-red-500'
-          }`}
+                ? 'bg-green-500'
+                : 'bg-red-500'
+            }`}
           style={{ width: `${Math.min(pct, 100)}%` }}
         />
       </div>
@@ -229,11 +228,10 @@ function PacingBarPrototype() {
                     key={a}
                     id={`assignee-${a}`}
                     onClick={() => setAssignee(a)}
-                    className={`flex-1 text-sm rounded-md py-2 font-medium border transition-colors ${
-                      assignee === a
+                    className={`flex-1 text-sm rounded-md py-2 font-medium border transition-colors ${assignee === a
                         ? 'bg-blue-600 text-white border-blue-600'
                         : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-600'
-                    }`}
+                      }`}
                   >
                     {a === 'team' ? '全隊' : a.charAt(0).toUpperCase() + a.slice(1)}
                   </button>
@@ -456,7 +454,7 @@ function YourFeaturePrototype() {
     <main className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-6 py-6">
         <h1 className="text-2xl font-bold mb-6">Your Feature Name</h1>
-        {/* 根據 PRD 開發你的 UI */}
+        // 根據 PRD 開發你的 UI
       </div>
     </main>
   )
