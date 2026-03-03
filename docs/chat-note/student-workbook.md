@@ -206,9 +206,9 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
   - 適合：快速示範、React 元件對齊。
   - **⚠ 注意**：會被 Next.js 編譯，**完成後必須 Git 還原，請勿 commit**。
 - **Isolated Mode (獨立隔離模式)**
-  - 路徑：`frontend/public/prototypes`
+  - 路徑：`frontend/public/`
   - 適合：零污染、長期保留、純 HTML 預覽。
-  - **🚀 訪問**：`http://localhost:3000/prototypes/[filename].html`
+  - **🚀 訪問**：`http://localhost:3000/[filename].html`
 
 **2. 核心原則：模仿與隔離**
 - **不要從零開發**：優先掃描系統既有設計語言（如 shadow-md, blue-600）與卡片組件。
@@ -219,15 +219,17 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 
 **Agent 會問的決策問題（共 7 題）**
 
-| 問題 | 選項範例 |
-|------|----------|
-| Q1：Prototype 的呈現深度？ | A. 靜態 UI / B. 基礎互動 / C. 完整流程 / D. Mock API |
-| Q2：畫面要如何安置？ | A. 獨立 HTML 於 docs/prototype/ / B. 放在 frontend/src/app/prototype/ / C. PM 指定 |
-| Q3：風格希望如何處理？ | A. 完全依現有樣式 / B. 允許微調 / C. 試不同 Layout |
-| Q4：假資料來源？ | A. 自動生成 / B. Mock API / C. 從 repo 找 / D. PM 提供 |
-| Q5：是否需要流程提示？ | A. 不需要 / B. 需要 / C. 需要並顯示在 UI 上 |
-| Q6：Prototype 用途？（可複選） | A. Demo 給自己 / B. 與工程 Alignment / C. 對主管 Pitch / D. 放進 PRD |
-| Q7：是否需要 Demo 影片腳本？ | A. 要 / B. 不需要 / C. 等看到再決定 |
+根據 Prototype Skill 的 Phase 2 澄清需求，Agent 會詢問以下問題。其中 Q1-Q4 為必問，Q5-Q7 為按需提問：
+
+| 問題 | 必問 | 選項範例 |
+|------|------|----------|
+| Q1：Prototype 的呈現深度？ | ✅ | A. 只要靜態畫面 / B. 基礎互動（切換、展開） / C. 完整流程含假資料 / D. 接 Mock API |
+| Q2：Prototype 要放在哪裡？ | ✅ | A. Isolated Mode（frontend/public/） / B. Direct Mode（frontend/src/app/prototype/） / C. 其他位置 |
+| Q3：假資料來源？ | ✅ | A. 自動生成假資料 / B. 從 repo 找 sample data / C. 自己提供 / D. Mock API |
+| Q4：Prototype 用途？（可複選） | ✅ | A. 自己看 / B. 和工程團隊對齊 / C. 對主管 Pitch / D. 放進 PRD / E. 錄 Demo |
+| Q5：風格處理？ | 按需 | A. 完全依現有樣式 / B. 允許微調 / C. 試不同 Layout |
+| Q6：是否需要流程提示？ | 按需 | A. 不需要 / B. 需要（無提示） / C. 需要並顯示在 UI 上 |
+| Q7：是否需要 Demo 操作腳本？ | 按需 | A. 需要 / B. 不需要 / C. 先看 Prototype 再決定 |
 
 ---
 
