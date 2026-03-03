@@ -554,6 +554,43 @@ kill -9 <PID>
 - **目的**: 整合前四步成果，透過逐題澄清確認所有關鍵決策
 - **輸出**: 完整的 PRD 規格文檔
 
+### Step 6：原型製作（Prototype）
+- **工具**: [Prototype Skill](./.agents/skills/Prototype-basedon-repo/SKILL.md)
+- **目的**: 將規格轉化為可視化原型，讓團隊看見、觸摸、討論
+- **輸出**: 可交互的 Prototype（支援兩種模式）
+
+#### 📍 Prototype 兩種開發模式
+
+| 模式 | 位置 | 做法 | 適合場景 |
+|------|------|------|---------|
+| **Direct Mode** | `frontend/src/app/prototype/[slug]/page.tsx` | 修改 codebase，添加 React 組件 + 路由映射 | 教學、快速示範、代碼審查 |
+| **Isolated Mode** | `frontend/public/prototypes/` | 生成獨立的 .html 檔案 | 完全隔離、乾淨刪除、長期參考 |
+
+#### 使用流程
+
+**Direct Mode 工作流**：
+```
+1. 使用 Prototype Skill，選擇 Direct Mode
+2. Skill 生成 React 組件代碼
+3. 在 frontend/src/app/prototype/[slug]/page.tsx 中編輯
+4. 訪問 http://localhost:3000/prototype/[feature-name]
+5. 完成後執行 git checkout 還原代碼
+```
+
+**Isolated Mode 工作流**：
+```
+1. 使用 Prototype Skill，選擇 Isolated Mode
+2. Skill 自動生成獨立 .html 檔案到 frontend/public/prototypes/
+3. 訪問 http://localhost:3000/prototypes/[feature-name].html
+4. 完成後刪除檔案，零污染代碼
+```
+
+#### 📚 Prototype 相關資源
+
+- [Direct Mode 詳細指南](./frontend/src/app/prototype/README.md) - 如何手動編輯 Prototype（教學用）
+- [Isolated Mode 詳細指南](./frontend/public/prototypes/README.md) - 如何使用獨立模式（Skill 自動生成）
+- [Prototype Skill 設計文檔](./.agents/skills/Prototype-basedon-repo/SKILL.md) - Skill 執行流程、Phase 說明、技術方案
+
 ### 參考資料
 - [PRD.md](./docs/reference/PRD.md) - 完整產品規格書範例
 - [tech-overview.md](./docs/reference/tech-overview.md) - 技術架構與資料模型
