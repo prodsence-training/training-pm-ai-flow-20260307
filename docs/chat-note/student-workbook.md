@@ -183,43 +183,37 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 1, 已有 PRD
 
 ### 操作
-我已經完成這一功能的 PRD。
-現在請你協助我建立 Prototype，請依照 @docs/template/prototype-guide.md 的流程與規範來進行。
-Prototype 請建立在獨立的 `docs/prototype/` 目錄下，並且不要影響正式程式碼。
+- **啟動 Prototype Skill**：
+  直接告知 Agent 你想針對 PRD 建立 Prototype。
+  *範例對話*：「我已經完成這一功能的 PRD @[PRD 文件路徑]，現在請協助我建立 Prototype。」
 
-請先：
-1. 自動掃描專案前端架構（Framework / UI Library / Common Components）
-2. 根據 PRD @PRD 整理 Prototype 的核心行為（但先不要寫 code）
-3. 啟動「逐題釐清模式」，一次問我一個問題，並提供 A/B/C/D 選項讓我選擇。
+- **Phase 1：環境掃描（自動執行）**
+  AI 會自動掃描技術棧（Framework、UI Library）與現有設計模式。
 
-等我回答完所有問題後，你再開始產生 Prototype
+- **Phase 2 & 3：需求澄清與確認**
+  AI 會啟動「逐題釐清模式」，詢問模式選擇（Direct/Isolated）、呈現深度、假資料策略等。請根據需求回答。
+
+- **Phase 4：產出 Prototype**
+  確認設計摘要後，AI 會自動產出程式碼、說明文件以及 Demo 腳本。
 
 ### 筆記
 
-**重要發現：Prototype 放置位置的考量**
+**1. 模式與位置提醒（重要！）**
+根據 Skill 的設計，請遵循以下存放路徑以確保隔離：
 
-1. **不要放在 frontend/src/app/ 下**
-   - 即使放在 `/prototype/` 子目錄，仍會被 Next.js 編譯
-   - 會出現在 production build 中，影響正式程式碼
+- **Direct Mode (直接修改模式)**
+  - 路徑：`frontend/src/app/prototype`
+  - 適合：快速示範、React 元件對齊。
+  - **⚠ 注意**：會被 Next.js 編譯，**完成後必須 Git 還原，請勿 commit**。
+- **Isolated Mode (獨立隔離模式)**
+  - 路徑：`frontend/public/prototypes`
+  - 適合：零污染、長期保留、純 HTML 預覽。
+  - **🚀 訪問**：`http://localhost:3000/prototypes/[filename].html`
 
-2. **正確做法：放在 docs/prototype/ 目錄**
-   - 使用純 HTML/CSS/JavaScript
-   - 不依賴任何 CDN 或外部資源
-   - 可直接雙擊開啟，不需要 Python 或任何伺服器
-
-3. **技術選擇**
-   - 第一版用 React + Recharts CDN → 失敗（CORS 問題）
-   - 第二版用 htm 替代 Babel → 仍失敗
-   - 最終版用純 HTML/CSS/JS → 成功
-
-4. **Prototype 檔案位置**
-   - HTML 頁面：`docs/prototype/002-scope-change-waterfall.html`
-   - 說明文件：`docs/prototype/002-scope-change-waterfall.md`
-
-5. **互動功能**
-   - Sprint 下拉選單切換
-   - 懸停 Tooltip 顯示分類統計
-   - 多種資料場景（正常/邊界/空狀態）
+**2. 核心原則：模仿與隔離**
+- **不要從零開發**：優先掃描系統既有設計語言（如 shadow-md, blue-600）與卡片組件。
+- **資料策略**：優先使用假資料 (Hardcoded)，避免動到後端 API 或資料庫。
+- **Demo 腳本**：產出的 Demo 腳本對與工程師進行「技術對齊 (Alignment)」非常有幫助。
 
 ---
 
