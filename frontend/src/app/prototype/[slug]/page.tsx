@@ -142,10 +142,10 @@ function ProgressBar({
       <div className="w-full h-5 bg-gray-200 rounded-full overflow-hidden relative">
         <div
           className={`h-full rounded-full transition-all duration-500 ${color === 'blue'
-              ? 'bg-blue-400'
-              : color === 'green'
-                ? 'bg-green-500'
-                : 'bg-red-500'
+            ? 'bg-blue-400'
+            : color === 'green'
+              ? 'bg-green-500'
+              : 'bg-red-500'
             }`}
           style={{ width: `${Math.min(pct, 100)}%` }}
         />
@@ -229,8 +229,8 @@ function PacingBarPrototype() {
                     id={`assignee-${a}`}
                     onClick={() => setAssignee(a)}
                     className={`flex-1 text-sm rounded-md py-2 font-medium border transition-colors ${assignee === a
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-600'
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-gray-600 border-gray-300 hover:border-blue-400 hover:text-blue-600'
                       }`}
                   >
                     {a === 'team' ? '全隊' : a.charAt(0).toUpperCase() + a.slice(1)}
@@ -417,8 +417,8 @@ function NotFoundPrototype({ slug }: { slug: string }) {
 // 主頁面：根據 slug 動態渲染
 // ──────────────────────────────────────────────
 
-export default function PrototypePage({ params }: { params: { slug: string } }) {
-  const { slug } = params
+export default async function PrototypePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
 
   // 動態路由映射（教學用）
   switch (slug) {
@@ -426,13 +426,14 @@ export default function PrototypePage({ params }: { params: { slug: string } }) 
       return <PacingBarPrototype />
 
     // ⬇️ 學員：在此添加新的 prototype
-    // case 'your-feature-name':
+    // case 'your-feature-name':\
     //   return <YourFeaturePrototype />
 
     default:
       return <NotFoundPrototype slug={slug} />
   }
 }
+
 
 // ──────────────────────────────────────────────────────────────────────────
 // 📖 學員：如何新增新的 Prototype

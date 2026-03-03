@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SPEC-001 Prototype | The Pacing Bar — Story 1: B1 雙重進度條宏觀預警</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .header {
+      background: #fff;
+      border-bottom: 1px solid #e5e7eb;
+      box-shadow: 0 1px 3px rgba(0,0,0,.06);
+      padding: .875rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-title { font-size: 1.1rem; font-weight: 700; color: #1f2937; }
+    .header-sub   { font-size: .8rem; color: #6b7280; margin-top: .15rem; }
+    .badge-proto {
+      background: #fef3c7; color: #92400e;
+      border: 1px solid #fcd34d;
+      font-size: .72rem; font-weight: 600;
+      padding: .25rem .75rem; border-radius: 9999px;
+      white-space: nowrap;
+    }
+
+    /* ── Layout ── */
+    .main { max-width: 720px; margin: 0 auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    /* ── Card ── */
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: .5rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,.07);
+      padding: 1.25rem;
+    }
+
+    /* ── Controls ── */
+    .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media (max-width: 520px) { .controls-grid { grid-template-columns: 1fr; } }
+
+    .label-small {
+      display: block;
+      font-size: .7rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: .05em;
+      color: #6b7280; margin-bottom: .4rem;
+    }
+
+    select {
+      width: 100%; padding: .45rem .75rem;
+      border: 1px solid #d1d5db; border-radius: .375rem;
+      background: #fff; font-size: .875rem; color: #374151;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right .6rem center;
+      cursor: pointer;
+    }
+    select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59,130,246,.15); }
+
+    .btn-group { display: flex; gap: .5rem; }
+    .btn {
+      flex: 1; padding: .45rem; border-radius: .375rem;
+      font-size: .875rem; font-weight: 500;
+      border: 1px solid #d1d5db;
+      background: #fff; color: #4b5563;
+      cursor: pointer; transition: all .15s;
+    }
+    .btn:hover { border-color: #93c5fd; color: #2563eb; }
+    .btn.active { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+    .scenario-info {
+      margin-top: .75rem;
+      background: #eff6ff; border: 1px solid #bfdbfe;
+      border-radius: .375rem; padding: .6rem .875rem;
+      font-size: .8rem; color: #1d4ed8;
+    }
+    .scenario-info strong { font-weight: 600; }
+
+    /* ── Progress section ── */
+    .pacing-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem; }
+    .pacing-title { font-size: .95rem; font-weight: 700; color: #1f2937; display: flex; align-items: center; gap: .5rem; }
+    .badge-warning {
+      background: #fee2e2; color: #b91c1c;
+      font-size: .65rem; font-weight: 700;
+      padding: .2rem .5rem; border-radius: 9999px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse { 0%,100% { opacity:1 } 50% { opacity:.5 } }
+    .pacing-meta { font-size: .72rem; color: #9ca3af; margin-top: .2rem; }
+    .sp-display { text-align: right; }
+    .sp-display .sp-label { font-size: .72rem; color: #9ca3af; }
+    .sp-display .sp-value { font-size: 1.15rem; font-weight: 700; color: #374151; }
+    .sp-display .sp-total { font-size: .8rem; font-weight: 400; color: #9ca3af; }
+
+    /* ── Progress bar ── */
+    .progress-wrap { margin-bottom: .75rem; }
+    .progress-label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: .3rem; }
+    .progress-label { font-size: .8rem; font-weight: 500; color: #374151; }
+    .progress-pct { font-size: .8rem; font-weight: 700; }
+    .progress-pct.blue  { color: #2563eb; }
+    .progress-pct.green { color: #16a34a; }
+    .progress-pct.red   { color: #dc2626; }
+    .progress-track {
+      width: 100%; height: 1.25rem;
+      background: #e5e7eb; border-radius: 9999px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 9999px;
+      transition: width .5s ease;
+    }
+    .progress-fill.blue  { background: #60a5fa; }
+    .progress-fill.green { background: #22c55e; }
+    .progress-fill.red   { background: #ef4444; }
+
+    /* ── Gap summary ── */
+    .gap-summary {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: .5rem;
+      border-radius: .375rem; padding: .5rem .875rem;
+      font-size: .825rem; font-weight: 500;
+    }
+    .gap-summary.ok  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #15803d; }
+    .gap-summary.bad { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+    .gap-icon { font-size: 1.1rem; }
+
+    /* ── Edge states ── */
+    .empty-state {
+      border: 1.5px dashed #d1d5db; border-radius: .5rem;
+      padding: 2.5rem 1.5rem; text-align: center;
+    }
+    .empty-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+    .empty-title { font-size: .9rem; font-weight: 600; color: #6b7280; }
+    .empty-sub   { font-size: .75rem; color: #9ca3af; margin-top: .25rem; }
+
+    .zero-sp-box {
+      background: #fefce8; border: 1px solid #fde68a;
+      border-radius: .375rem; padding: 1rem; text-align: center;
+      margin-bottom: .75rem;
+    }
+    .zero-sp-title { font-size: .875rem; font-weight: 600; color: #a16207; }
+    .zero-sp-sub   { font-size: .75rem; color: #ca8a04; margin-top: .25rem; }
+
+    /* ── AC Table ── */
+    .ac-title { font-size: .825rem; font-weight: 600; color: #4b5563; margin-bottom: .75rem; }
+    .ac-list { display: flex; flex-direction: column; gap: .5rem; }
+    .ac-row { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+    .ac-badge {
+      display: inline-flex; align-items: center; gap: .25rem;
+      background: #eff6ff; color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+      font-size: .7rem; font-weight: 500;
+      padding: .15rem .45rem; border-radius: .25rem;
+      white-space: nowrap;
+    }
+    .ac-badge code { font-family: monospace; font-weight: 700; }
+    .ac-desc { font-size: .72rem; color: #9ca3af; }
+
+    /* ── Demo guide ── */
+    .guide-title { font-size: .825rem; font-weight: 600; color: #92400e; margin-bottom: .6rem; }
+    .guide-ol { font-size: .75rem; color: #78350f; padding-left: 1.1rem; line-height: 1.9; }
+    .guide-note { margin-top: .75rem; font-size: .72rem; color: #b45309; font-weight: 500; }
+    .guide-note code { background: #fef3c7; padding: .1rem .3rem; border-radius: .25rem; font-family: monospace; font-size: .7rem; }
+
+    footer {
+      text-align: center;
+      font-size: .72rem; color: #9ca3af;
+      padding: 1.5rem 0 1rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Header ── -->
+<header class="header">
+  <div>
+    <div class="header-title">Sprint 健康度視覺化 · The Pacing Bar</div>
+    <div class="header-sub">SPEC-001 Story 1 · Prototype（Isolated Mode）</div>
+  </div>
+  <span class="badge-proto">⚠️ Prototype Only</span>
+</header>
+
+<main class="main">
+
+  <!-- ── 控制列 ── -->
+  <div class="card">
+    <div class="controls-grid">
+      <!-- 場景切換 -->
+      <div>
+        <label class="label-small" for="scenario-select">測試場景</label>
+        <select id="scenario-select">
+          <option value="normal">✅ 正常（綠色）</option>
+          <option value="warning">🔴 預警（紅色）</option>
+          <option value="ahead">🚀 超前（綠色）</option>
+          <option value="zero_sp">⚪ 邊界：總 SP = 0</option>
+          <option value="no_sprint">⬜ 無 Active Sprint</option>
+        </select>
+      </div>
+      <!-- Assignee 切換 -->
+      <div>
+        <label class="label-small">視角（AC04）</label>
+        <div class="btn-group">
+          <button class="btn active" id="btn-team" onclick="setAssignee('team')">全隊</button>
+          <button class="btn"        id="btn-andy" onclick="setAssignee('andy')">Andy</button>
+          <button class="btn"        id="btn-bob"  onclick="setAssignee('bob')">Bob</button>
+        </div>
+      </div>
+    </div>
+    <!-- 場景說明 -->
+    <div class="scenario-info"><strong>場景說明：</strong><span id="scenario-desc"></span></div>
+  </div>
+
+  <!-- ── 雙重進度條主區塊 ── -->
+  <div id="pacing-section"></div>
+
+  <!-- ── AC 對照表 ── -->
+  <div class="card">
+    <div class="ac-title">這個 Prototype 覆蓋的 AC</div>
+    <div class="ac-list">
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC01</code> 雙重進度條正常顯示</span>
+        <span class="ac-desc">理想進度 vs 實際完成比例並排</span>
+      </div>
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC02</code> 落後未超閾值 → 綠色</span>
+        <span class="ac-badge"><code>AC03</code> 落後 &gt;15% → 紅色</span>
+      </div>
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC04</code> Assignee 切換</span>
+        <span class="ac-desc">全隊 / Andy / Bob 三種個人視角</span>
+      </div>
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC05</code> 總 SP=0 → 顯示 0%，不計落後</span>
+      </div>
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC06</code> 無 Active Sprint → 隱藏</span>
+      </div>
+      <div class="ac-row">
+        <span class="ac-badge"><code>AC07</code> 理想進度排除週末</span>
+        <span class="ac-desc">工作天數已在假資料中排除週末計算</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 操作說明 ── -->
+  <div class="card" style="background:#fffbeb; border-color:#fde68a;">
+    <div class="guide-title">操作說明（供技術對齊）</div>
+    <ol class="guide-ol">
+      <li>上方「測試場景」下拉，切換 5 種 AC 覆蓋情境</li>
+      <li>「視角」按鈕切換全隊 / Andy / Bob 個人進度（AC04）</li>
+      <li>「無 Active Sprint」場景驗證進度條區域整體隱藏（AC06）</li>
+      <li>「邊界：總 SP=0」場景驗證 0% 顯示且無落後計算（AC05）</li>
+    </ol>
+    <div class="guide-note">
+      此為 Isolated Mode Prototype，存放於 <code>frontend/public/prototypes/pacing-bar.html</code>，完全獨立於 Production 邏輯，移除時直接刪除此檔案即可。
+    </div>
+  </div>
+
+</main>
+
+<footer>此為 Prototype 頁面，使用 hardcode 假資料 · Isolated Mode · 完全隔離於 Production 邏輯</footer>
+
+<script>
+  // ── 假資料 ──────────────────────────────────────────────────
+  const SCENARIOS = {
+    normal: {
+      description: '團隊落後少於 15%，進度條保持綠色',
+      sprintName: 'Sprint 12',
+      totalDays: 10, elapsedDays: 5,
+      team: { totalSP: 50, doneSP: 20 },
+      andy: { totalSP: 25, doneSP: 11 },
+      bob:  { totalSP: 25, doneSP: 9  },
+      hasActiveSprint: true,
+    },
+    warning: {
+      description: '團隊落後超過 15%（理想進度 - 實際進度 > 15%），進度條轉紅',
+      sprintName: 'Sprint 12',
+      totalDays: 10, elapsedDays: 7,
+      team: { totalSP: 50, doneSP: 20 },
+      andy: { totalSP: 25, doneSP: 8  },
+      bob:  { totalSP: 25, doneSP: 12 },
+      hasActiveSprint: true,
+    },
+    ahead: {
+      description: '實際進度超過理想進度，進度條保持綠色',
+      sprintName: 'Sprint 12',
+      totalDays: 10, elapsedDays: 4,
+      team: { totalSP: 50, doneSP: 30 },
+      andy: { totalSP: 25, doneSP: 16 },
+      bob:  { totalSP: 25, doneSP: 14 },
+      hasActiveSprint: true,
+    },
+    zero_sp: {
+      description: 'AC05：Sprint 總 Story Points 為零，實際進度顯示 0%，不計算落後比例',
+      sprintName: 'Sprint 13（空 SP）',
+      totalDays: 10, elapsedDays: 3,
+      team: { totalSP: 0, doneSP: 0 },
+      andy: { totalSP: 0, doneSP: 0 },
+      bob:  { totalSP: 0, doneSP: 0 },
+      hasActiveSprint: true,
+    },
+    no_sprint: {
+      description: 'AC06：無 Active Sprint 時，進度條區域隱藏不顯示',
+      sprintName: '（無）',
+      totalDays: 0, elapsedDays: 0,
+      team: { totalSP: 0, doneSP: 0 },
+      andy: { totalSP: 0, doneSP: 0 },
+      bob:  { totalSP: 0, doneSP: 0 },
+      hasActiveSprint: false,
+    },
+  };
+
+  // ── 狀態 ────────────────────────────────────────────────────
+  let currentScenario = 'normal';
+  let currentAssignee = 'team';
+
+  // ── 計算邏輯（對應 PRD 業務邏輯）──────────────────────────
+  function calcProgress(data, assignee) {
+    const src = data[assignee];
+    const idealPct = data.totalDays > 0 ? (data.elapsedDays / data.totalDays) * 100 : 0;
+    const actualPct = src.totalSP > 0  ? (src.doneSP / src.totalSP) * 100 : 0;
+    const gap = idealPct - actualPct;
+    const isWarning = src.totalSP > 0 && gap > 15;
+    const isZeroSP  = src.totalSP === 0;
+    return { idealPct, actualPct, gap, isWarning, isZeroSP, src };
+  }
+
+  // ── 進度條 HTML ─────────────────────────────────────────────
+  function progressBarHTML(pct, colorClass, label, sublabel) {
+    const pctStr = pct.toFixed(1) + '%';
+    const sublabelStr = sublabel ? `<span style="font-weight:400;color:#6b7280;margin-left:.25rem;font-size:.75rem;">${sublabel}</span>` : '';
+    return `
+      <div class="progress-wrap">
+        <div class="progress-label-row">
+          <span class="progress-label">${label}</span>
+          <span class="progress-pct ${colorClass}">${pctStr}${sublabelStr}</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill ${colorClass}" style="width:${Math.min(pct,100)}%"></div>
+        </div>
+      </div>`;
+  }
+
+  // ── 渲染主區塊 ───────────────────────────────────────────────
+  function render() {
+    const data = SCENARIOS[currentScenario];
+    const { idealPct, actualPct, gap, isWarning, isZeroSP, src } = calcProgress(data, currentAssignee);
+    const section = document.getElementById('pacing-section');
+    const assigneeLabel = currentAssignee === 'team' ? '全隊' : (currentAssignee === 'andy' ? 'Andy' : 'Bob');
+
+    // 場景說明
+    document.getElementById('scenario-desc').textContent = data.description;
+
+    // AC06：無 Active Sprint
+    if (!data.hasActiveSprint) {
+      section.innerHTML = `
+        <div class="card">
+          <div class="empty-state">
+            <div class="empty-icon">🏁</div>
+            <div class="empty-title">目前無 Active Sprint</div>
+            <div class="empty-sub">進度條區域隱藏，不顯示（AC06）</div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    // 顏色邏輯
+    const actualColor = isWarning ? 'red' : 'green';
+
+    // 落後/超前文字
+    let gapText = gap > 0
+      ? `落後 ${gap.toFixed(1)}%`
+      : gap < 0 ? `超前 ${Math.abs(gap).toFixed(1)}%` : '持平';
+    let gapDetail = isWarning
+      ? '　→　超過 15% 閾值，觸發紅色警示'
+      : (gap <= 0 ? '　→　超前或持平，保持綠色' : '　→　落後但未超過 15% 閾值，保持綠色');
+
+    section.innerHTML = `
+      <div class="card">
+        <div class="pacing-header">
+          <div>
+            <div class="pacing-title">
+              Sprint 雙重進度條 · Pacing Bar
+              ${isWarning ? '<span class="badge-warning">⚠️ 落後預警</span>' : ''}
+            </div>
+            <div class="pacing-meta">
+              ${data.sprintName}　·　已過 ${data.elapsedDays}/${data.totalDays} 工作天（排除週末，AC07）
+            </div>
+          </div>
+          <div class="sp-display">
+            <div class="sp-label">${assigneeLabel} Story Points</div>
+            <div class="sp-value">${src.doneSP}<span class="sp-total"> / ${src.totalSP} SP</span></div>
+          </div>
+        </div>
+
+        ${isZeroSP ? `
+          <div class="zero-sp-box">
+            <div class="zero-sp-title">總 Story Points 為 0</div>
+            <div class="zero-sp-sub">AC05：實際進度顯示 0%，不計算落後比例</div>
+          </div>
+          ${progressBarHTML(0, 'blue',  '理想進度（時間基礎）')}
+          ${progressBarHTML(0, 'green', '實際完成進度（Done SP）')}
+        ` : `
+          ${progressBarHTML(idealPct,  'blue',        '① 理想進度（時間基礎）',           `第 ${data.elapsedDays} 天 / 共 ${data.totalDays} 天`)}
+          ${progressBarHTML(actualPct, actualColor,   `② 實際完成進度（Done SP）${isWarning? ' — 落後超過 15%，亮紅色警示（AC02/AC03）':''}`, `Done ${src.doneSP} / 總 ${src.totalSP} SP`)}
+          <div class="gap-summary ${isWarning ? 'bad' : 'ok'}">
+            <span>${gapText}${gapDetail}</span>
+            <span class="gap-icon">${isWarning ? '🔴' : '🟢'}</span>
+          </div>
+        `}
+      </div>`;
+  }
+
+  // ── Assignee 切換 ────────────────────────────────────────────
+  function setAssignee(a) {
+    currentAssignee = a;
+    document.querySelectorAll('.btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('btn-' + a).classList.add('active');
+    render();
+  }
+
+  // ── 場景切換 ─────────────────────────────────────────────────
+  document.getElementById('scenario-select').addEventListener('change', function(e) {
+    currentScenario = e.target.value;
+    render();
+  });
+
+  // ── 初始化 ───────────────────────────────────────────────────
+  render();
+</script>
+</body>
+</html>
