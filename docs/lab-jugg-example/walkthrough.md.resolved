@@ -1,0 +1,54 @@
+# Prototype Walkthrough — Story 1: The Pacing Bar
+
+## 完成事項
+
+### 1. 發現既有 Prototype（不需重新建立）
+
+Prototype 已存在於：
+[pacing-bar/page.tsx](file:///Users/jugg-home-macmini/Coding/training-pm-ai-flow-20260307/frontend/src/app/prototype/pacing-bar/page.tsx)
+
+**模式**：Direct Mode（Next.js 路由，請完成後執行 `git checkout frontend/src/app/prototype/` 還原）
+
+**訪問網址**：[http://localhost:3000/prototype/pacing-bar](http://localhost:3000/prototype/pacing-bar)
+
+---
+
+### 2. 修正 Build 錯誤
+
+[frontend/src/app/prototype/[slug]/page.tsx](file:///Users/jugg-home-macmini/Coding/training-pm-ai-flow-20260307/frontend/src/app/prototype/%5Bslug%5D/page.tsx) 的教學注解區塊內有 JSX comment 語法：
+```diff
+- {/* 根據 PRD 開發你的 UI */}
++ // 根據 PRD 開發你的 UI
+```
+Docker build 已成功。
+
+---
+
+### 3. 驗證結果
+
+![Pacing Bar Prototype Demo](/Users/jugg-home-macmini/.gemini/antigravity/brain/597f0e00-df87-4f03-bf6f-e8a2269cb3f3/pacing_bar_demo.webp)
+
+| 功能 | AC | 結果 |
+|------|-----|------|
+| 雙重進度條顯示（理想 vs 實際） | AC01 | ✅ 正常 |
+| 落後未超閾值 → 綠色 | AC02 | ✅ 正常 |
+| 落後 > 15% → 紅色警示 | AC03 | ✅ 正常，顯示「⚠️ 落後預警」標籤並動態 pulse |
+| Assignee 切換（全隊/Andy/Bob） | AC04 | ✅ 正常，SP 數字即時切換 |
+| 總 SP = 0 → 顯示 0%，不計落後 | AC05 | ✅ 場景可切換驗證 |
+| 無 Active Sprint → 隱藏 | AC06 | ✅ 場景可切換驗證 |
+| 理想進度排除週末（工作天計算） | AC07 | ✅ 假資料已反映排除週末的天數 |
+
+**底部包含**：AC 對照表 + 操作說明（供技術對齊用）
+
+---
+
+## 操作方式（與工程師對齊）
+
+1. 用下拉選單切換 5 種 AC 情境
+2. 用按鈕切換全隊 / Andy / Bob 個人進度視角
+3. 「無 Active Sprint」→ 進度條整體隱藏（驗證 AC06）
+4. 「邊界：總 SP=0」→ 0% 顯示且無落後計算（驗證 AC05）
+
+---
+
+> ⚠️ 完成 Demo 後，執行 `git checkout frontend/src/app/prototype/` 還原所有 prototype 修改。
