@@ -46,7 +46,7 @@ fi
 echo -e "\n${GREEN}✅ 所有 Images 構建完成！${NC}"
 echo -e "\n${YELLOW}使用方式：${NC}"
 echo "1. 本地執行："
-echo "   docker-compose -f docker-compose.prod.yml up"
+echo "   docker compose -f docker-compose.prod.yml up"
 echo ""
 if [ -n "$REGISTRY" ]; then
   echo "2. 推送到 Registry："

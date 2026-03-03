@@ -2,7 +2,7 @@ version: '3.9'
 
 # 生產環境配置 - 使用 Pre-built Images（不重新 build）
 # 使用前請先執行: scripts/build-docker.sh v1.0
-# 或直接使用 pre-built image: docker-compose -f docker-compose.prod.yml up
+# 或直接使用 pre-built image: docker compose -f docker-compose.prod.yml up
 
 services:
   backend:

@@ -109,7 +109,7 @@
 
 ```bash
 docker --version
-docker-compose --version
+docker compose version
 ```
 
 **預期輸出**：
@@ -145,16 +145,16 @@ Docker Compose version 2.0+
 
 ```bash
 # 啟動所有服務（自動從 Docker Hub 拉取 pre-built images）
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 
 # 或背景執行
-docker-compose -f docker-compose.prod.yml up -d
+docker compose -f docker-compose.prod.yml up -d
 
 # 查看日誌
-docker-compose -f docker-compose.prod.yml logs -f
+docker compose -f docker-compose.prod.yml logs -f
 
 # 停止服務
-docker-compose -f docker-compose.prod.yml down
+docker compose -f docker-compose.prod.yml down
 ```
 
 訪問：http://localhost:3000
@@ -180,16 +180,16 @@ docker-compose -f docker-compose.prod.yml down
 
 ```bash
 # 啟動開發容器（首次會構建，之後可重複使用）
-docker-compose up
+docker compose up
 
 # 背景執行
-docker-compose up -d
+docker compose up -d
 
 # 查看日誌
-docker-compose logs -f frontend
+docker compose logs -f frontend
 
 # 停止容器
-docker-compose down
+docker compose down
 ```
 
 特點：
@@ -204,16 +204,16 @@ docker-compose down
 
 ```bash
 # 啟動開發容器（支援 Playwright）
-docker-compose -f docker-compose.dev.yml up
+docker compose -f docker-compose.dev.yml up
 
 # 背景執行
-docker-compose -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.dev.yml up -d
 
 # 查看日誌
-docker-compose -f docker-compose.dev.yml logs -f frontend
+docker compose -f docker-compose.dev.yml logs -f frontend
 
 # 停止開發容器
-docker-compose -f docker-compose.dev.yml down
+docker compose -f docker-compose.dev.yml down
 ```
 
 特點：
@@ -231,7 +231,7 @@ docker-compose -f docker-compose.dev.yml down
 
 ```bash
 # 使用開發版本，支援 hot reload
-docker-compose up
+docker compose up
 
 # 修改代碼後自動更新，無需重啟
 ```
@@ -247,7 +247,7 @@ docker-compose up
 
 ```bash
 # 使用預構建版本，1-2 分鐘快速啟動
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ---
@@ -258,9 +258,9 @@ docker-compose -f docker-compose.prod.yml up
 
 | 場景 | 命令 | 說明 |
 |------|------|------|
-| 開發中修改代碼 | `docker-compose up` | 自動 hot reload，無需 rebuild |
+| 開發中修改代碼 | `docker compose up` | 自動 hot reload，無需 rebuild |
 | 代碼改完要定型 | `./scripts/build-docker.sh v1.0` | 構建新的 pre-built images |
-| 課堂上快速演示 | `docker-compose -f docker-compose.prod.yml up` | 1-2 分鐘啟動 |
+| 課堂上快速演示 | `docker compose -f docker-compose.prod.yml up` | 1-2 分鐘啟動 |
 
 #### 版本管理
 
@@ -271,7 +271,7 @@ docker-compose -f docker-compose.prod.yml up
 ./scripts/build-docker.sh v1.1
 
 # 之後課堂用最新版本
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 #### 推送到 Docker Hub（可選）
@@ -295,7 +295,7 @@ docker push docker.io/yourusername/training-pm-ai-flow:frontend-v1.0
 ```bash
 docker pull docker.io/yourusername/training-pm-ai-flow:backend-v1.0
 docker pull docker.io/yourusername/training-pm-ai-flow:frontend-v1.0
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ---
@@ -365,13 +365,13 @@ backend:
 
 ```bash
 # 啟動應用
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 
 # 訪問前端
 http://localhost:3000
 
 # 查看後端日誌確認連接成功
-docker-compose -f docker-compose.prod.yml logs backend
+docker compose -f docker-compose.prod.yml logs backend
 ```
 
 ---

@@ -7,7 +7,7 @@
 ### 啟動示範應用
 
 ```bash
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ### 訪問儀表板
@@ -270,7 +270,7 @@ Agent 會自動執行以下技術操作，學員只需確認結果：
 cd training-pm-ai-flow-20260307
 
 # 啟動預構建版本（最快）
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ✅ **優點**：
@@ -286,7 +286,7 @@ docker-compose -f docker-compose.prod.yml up
 ./scripts/build-docker.sh v1.0
 
 # 之後課堂上就可以快速啟動
-docker-compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.prod.yml up
 ```
 
 ---
@@ -334,5 +334,5 @@ NEXT_PUBLIC_APP_TITLE=Jira Dashboard
 
 1. 編輯對應的 `.env` 檔案（`backend/.env` 或 `frontend/.env`）
 2. 修改環境變數值
-3. 重啟 Docker 容器：`docker-compose down && docker-compose up`
+3. 重啟 Docker 容器：`docker compose down && docker compose up`
 4. 確認變更生效
