@@ -65,11 +65,11 @@
 
 **最簡單，以後都不需要再問**
 
-1. 準備你的產品配置文件（參考 `product-config-template.md`）
+1. 準備你的產品配置文件（參考 `product-context-for-gemini-kb.md`）
 2. **直接上傳到此對話**（使用 Gemini 的文件上傳功能）
 3. 告訴我檔案名稱：
    ```
-   我上傳了產品配置文件：product-config-my-dashboard.md
+   我上傳了產品配置文件：product-context-for-gemini-kb.md
    ```
 
 我會自動讀取該文件，整個對話中都基於此配置進行分析。
@@ -91,7 +91,7 @@
 如果配置已保存在本地：
 
 ```
-請使用我的產品配置：/path/to/product-config-my-product.md
+請使用我的產品配置：/path/to/product-context-for-gemini-kb.md
 ```
 
 ---
