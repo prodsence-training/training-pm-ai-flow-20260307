@@ -537,7 +537,7 @@ taskkill /PID 1234 /F
 - [ ] 已在瀏覽器看到 Jira Dashboard 應用畫面（http://localhost:3000）
 
 **課程討論區**
-- [ ] 已加入 [Discord](https://discord.gg/UBmFFW54Rh)
+- [ ] 已加入 [Discord](https://discord.gg/fPqbSpG8HK)
 
 > 如果有任何項目遇到問題，**請在課程開始前透過 Discord 告知講師，不要等到上課時才反映。**
 
@@ -547,7 +547,7 @@ taskkill /PID 1234 /F
 
 課程使用 **Discord** 作為主要的溝通和討論管道。請在課前加入：
 
-👉 **https://discord.gg/UBmFFW54Rh**
+👉 **https://discord.gg/fPqbSpG8HK**
 
 在這裡你可以：
 - 課前環境安裝遇到問題，隨時發問
@@ -561,7 +561,7 @@ taskkill /PID 1234 /F
 ## 📞 重要連結
 
 **課程資源**
-- **Discord 討論區** → https://discord.gg/UBmFFW54Rh
+- **Discord 討論區** → https://discord.gg/fPqbSpG8HK
 - **GitHub Repo** → https://github.com/prodsence-training/training-pm-ai-flow-20260307
 - **學員工作手冊** → `docs/chat-note/student-workbook.md`（下載專案後在本機打開）
 
