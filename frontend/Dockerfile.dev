@@ -21,9 +21,9 @@ COPY . .
 ENV NEXT_PUBLIC_API_URL=http://backend:8000/api
 ENV NODE_ENV=development
 
-# 安装 Playwright 浏览器（使用系统浏览器）
-RUN npx playwright install-deps && \
-    npx playwright install chromium firefox webkit
+# Playwright 依賴（本課程不需要，後續課程可取消註釋）
+# RUN npx playwright install-deps && \
+#     npx playwright install chromium firefox webkit
 
 EXPOSE 3000
 

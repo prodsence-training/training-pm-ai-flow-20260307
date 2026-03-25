@@ -341,9 +341,11 @@ git pull origin main
 
 > ℹ️ **環境變數已包含**：backend/.env 和 frontend/.env 已經內含在專案中，無需手動設定。
 
-### 啟動步驟
+### 📋 課前準備（提早一天執行 — 約 30 分鐘）
 
 請先確認 **Docker Desktop 已開啟**（左下角是綠色圖示）。
+
+⏱️ **第一次執行會 build Docker images 和安裝依賴，需要 ~30 分鐘。建議在課前一天執行，這樣上課時就可以直接使用。**
 
 #### Mac
 
@@ -354,7 +356,7 @@ git pull origin main
 cd ~/Demo/training-pm-ai-flow-20260307
 
 # 執行此指令啟動應用
-docker compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 
 #### Windows
@@ -366,7 +368,7 @@ docker compose -f docker-compose.prod.yml up
 cd $HOME\Demo\training-pm-ai-flow-20260307
 
 # 執行此指令啟動應用
-docker compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 
 ### 確認啟動成功
@@ -378,37 +380,32 @@ docker compose -f docker-compose.prod.yml up
 看到 Jira Dashboard 頁面就表示成功了！
 
 **預期時間**：
-- ✅ **預構建版本**：1-2 分鐘
-- ⚠️ **首次構建版本**：5-10 分鐘（取決於網路速度）
+- ⏱️ **課前準備（首次）**：~30 分鐘（build images 和安裝依賴）
+- ✅ **課堂啟動（後續）**：幾秒鐘（images 已存在）
 
 ### 停止應用
 
 在 Terminal / PowerShell 按 `Ctrl + C`，然後執行：
 
 ```bash
-# 使用預構建版本時
-docker compose -f docker-compose.prod.yml down
-
-# 或使用預設版本時
-docker compose down
+docker compose -f docker-compose.dev.yml down
 ```
 
 ---
 
-## ⚡ 課堂快速指令
+## ⚡ 課堂快速指令速查
 
-把這三行指令存下來，課堂上就只需要這些：
+課前準備完成後，上課只需要以下指令：
 
 ### 1️⃣ 啟動應用
 ```bash
-docker compose -f docker-compose.prod.yml up
+docker compose -f docker-compose.dev.yml up
 ```
 
-### 2️⃣ 訪問儀表板
-打開瀏覽器，輸入：
-```
-http://localhost:3000
-```
+### 2️⃣ 訪問應用
+打開瀏覽器：
+- **📊 Dashboard**: http://localhost:3000
+- **🧪 Prototype**: http://localhost:3000/prototype/pacing-bar
 
 ### 3️⃣ 關閉應用
 在 Terminal / PowerShell 按：
@@ -491,7 +488,7 @@ netstat -ano | findstr :3000
 taskkill /PID 1234 /F
 ```
 
-關閉後重新執行 `docker compose -f docker-compose.prod.yml up` 即可。
+關閉後重新執行 `docker compose -f docker-compose.dev.yml up` 即可。
 
 ### Q5: Antigravity 免費額度用完了怎麼辦？
 
@@ -532,9 +529,11 @@ taskkill /PID 1234 /F
 - [ ] 已下載專案到電腦上（三種方式擇一）
 - [ ] 記得專案資料夾的存放位置
 
-**課程示範應用（Docker）**
-- [ ] 已執行 `docker compose -f docker-compose.prod.yml up`
-- [ ] 已在瀏覽器看到 Jira Dashboard 應用畫面（http://localhost:3000）
+**課程示範應用（Docker）— ⏱️ 課前準備必做**
+- [ ] 已執行 `docker compose -f docker-compose.dev.yml up`（約 30 分鐘建置）
+- [ ] 看到「frontend running」和「backend running」訊息表示完成
+- [ ] 已在瀏覽器驗證看到 Jira Dashboard 應用（http://localhost:3000）
+- [ ] 已按 `Ctrl + C` 停止，環境準備完成
 
 **課程討論區**
 - [ ] 已加入 [Discord](https://discord.gg/fPqbSpG8HK)
