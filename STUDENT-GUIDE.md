@@ -430,23 +430,42 @@ docker compose -f docker-compose.prod.yml down
 
 ## ⚡ 課堂快速指令速查
 
-課前準備完成後，上課只需要以下指令：
+課前準備完成後，上課只需要以下指令。根據課前選擇的方案：
 
-### 1️⃣ 啟動應用
+### 🟢 如果用 Dev 版本
+
+**啟動**
 ```bash
 docker compose -f docker-compose.dev.yml up
 ```
 
-### 2️⃣ 訪問應用
-打開瀏覽器：
+**訪問應用**
 - **📊 Dashboard**: http://localhost:3000
 - **🧪 Prototype**: http://localhost:3000/prototype/pacing-bar
 
-### 3️⃣ 關閉應用
-在 Terminal / PowerShell 按：
-```
+**關閉**
+```bash
 Ctrl + C
 ```
+
+---
+
+### 🟠 如果用 Prod 版本（備選）
+
+**啟動**
+```bash
+docker compose -f docker-compose.prod.yml up
+```
+
+**訪問應用**
+- **📊 Dashboard**: http://localhost:3000
+
+**關閉**
+```bash
+Ctrl + C
+```
+
+> ⚠️ Prod 版本無法開發 Prototype
 
 ---
 
