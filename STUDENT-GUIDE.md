@@ -443,9 +443,14 @@ docker compose -f docker-compose.dev.yml up
 - **📊 Dashboard**: http://localhost:3000
 - **🧪 Prototype**: http://localhost:3000/prototype/pacing-bar
 
-**關閉**
+**停止運行**（保留容器）
 ```bash
 Ctrl + C
+```
+
+**完全關閉**（清理容器，建議課後執行）
+```bash
+docker compose -f docker-compose.dev.yml down
 ```
 
 ---
@@ -460,9 +465,14 @@ docker compose -f docker-compose.prod.yml up
 **訪問應用**
 - **📊 Dashboard**: http://localhost:3000
 
-**關閉**
+**停止運行**（保留容器）
 ```bash
 Ctrl + C
+```
+
+**完全關閉**（清理容器，建議課後執行）
+```bash
+docker compose -f docker-compose.prod.yml down
 ```
 
 > ⚠️ Prod 版本無法開發 Prototype
