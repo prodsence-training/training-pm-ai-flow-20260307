@@ -175,9 +175,9 @@ git --version
 
 ---
 
-### 方式一：使用 Terminal 指令（推薦）
+### 方式一：使用 Terminal 指令
 
-這是最標準的方式，適合想練習基本指令操作的學員。
+這是最標準的方式，適合熟悉命令列操作的學員。
 
 #### Mac
 
@@ -239,11 +239,11 @@ git status
 
 ---
 
-### 方式二：使用 Antigravity IDE
+### 方式二：使用 Antigravity IDE（⭐ 推薦 — 最友善）
 
-如果你已經安裝好 Antigravity，可以直接在 IDE 裡面下載專案。
+如果你已經安裝好 Antigravity，可以直接在 IDE 裡面下載專案。**這是最友善的方式，有圖形化界面，不需要記住指令。**
 
-> ⚠️ 此方式需要已安裝 Git（見上方「前置步驟：安裝 Git」）。
+> ℹ️ 此方式需要已安裝 Git（見上方「前置步驟：安裝 Git」）。
 
 #### 使用 Antigravity Clone 專案
 
@@ -349,49 +349,82 @@ git pull origin main
 
 > **優先使用 `dev` 版本**。如果 build 過程中遇到問題（工具裝不起來、依賴衝突等），再改用 `prod` 版本作為備選方案。
 
-#### Mac
+---
+
+#### 🟢 主要方案：使用 Dev 版本（推薦）
+
+這個版本讓你能夠開發 Prototype。
+
+**Mac**
 
 打開 Terminal（`⌘ Command + Space` → 輸入 "Terminal"），執行：
 
 ```bash
-# 進入專案資料夾（請改成你實際的路徑）
 cd ~/Demo/training-pm-ai-flow-20260307
-
-# 執行此指令啟動應用
 docker compose -f docker-compose.dev.yml up
 ```
 
-#### Windows
+**Windows**
 
 打開 PowerShell（`Win + R` → 輸入 "powershell"），執行：
 
 ```powershell
-# 進入專案資料夾（請改成你實際的路徑）
 cd $HOME\Demo\training-pm-ai-flow-20260307
-
-# 執行此指令啟動應用
 docker compose -f docker-compose.dev.yml up
 ```
 
-### 確認啟動成功
+**確認啟動成功**
 
-等待畫面上的訊息跑完後，打開瀏覽器訪問：
+等待畫面顯示：
+```
+✓ frontend running on http://localhost:3000
+✓ backend running on http://localhost:8000
+```
 
-👉 **http://localhost:3000**
-
-看到 Jira Dashboard 頁面就表示成功了！
+打開瀏覽器訪問 👉 **http://localhost:3000** 看到 Jira Dashboard 就成功了！
 
 **預期時間**：
 - ⏱️ **課前準備（首次）**：~30 分鐘（build images 和安裝依賴）
 - ✅ **課堂啟動（後續）**：幾秒鐘（images 已存在）
 
-### 停止應用
+**停止應用**
 
 在 Terminal / PowerShell 按 `Ctrl + C`，然後執行：
 
 ```bash
 docker compose -f docker-compose.dev.yml down
 ```
+
+---
+
+#### 🟠 備選方案：使用 Prod 版本（如 Dev 版本 Build 失敗）
+
+如果上面的 Dev 版本在 build 時出現錯誤（工具裝不起來、依賴衝突等），改用此方案。
+
+**Mac**
+
+```bash
+cd ~/Demo/training-pm-ai-flow-20260307
+docker compose -f docker-compose.prod.yml up
+```
+
+**Windows**
+
+```powershell
+cd $HOME\Demo\training-pm-ai-flow-20260307
+docker compose -f docker-compose.prod.yml up
+```
+
+**預期時間**：
+- ✅ **首次啟動**：1-2 分鐘（預構建版本，無需 build）
+
+**停止應用**
+
+```bash
+docker compose -f docker-compose.prod.yml down
+```
+
+> ⚠️ **備註**：Prod 版本只能查看系統外觀，無法開發 Prototype。如果之後想開發 Prototype，還是需要回到 Dev 版本或用本機 `npm run dev`。
 
 ---
 
@@ -416,23 +449,6 @@ Ctrl + C
 ```
 
 ---
-
-### ⚠️ 遇到 Build 問題？改用備選方案
-
-如果 `docker compose -f docker-compose.dev.yml up` 在 build 過程中出現錯誤（例如依賴衝突、工具裝不起來），可以改用預構建版本：
-
-```bash
-# 停止當前 build（按 Ctrl+C）
-# 然後改用預構建版本
-
-docker compose -f docker-compose.prod.yml up
-```
-
-**預構建版本的優缺點：**
-- ✅ **優點**：不需要 build，啟動快（1-2 分鐘）
-- ❌ **缺點**：無法開發 Prototype（環境是預先固定的）
-
-> 使用預構建版本查看系統外觀後，如果想開發 Prototype，還是需要回到 dev 版本或在本機用 `npm run dev`。
 
 ---
 
