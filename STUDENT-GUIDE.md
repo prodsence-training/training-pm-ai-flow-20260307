@@ -347,6 +347,8 @@ git pull origin main
 
 ⏱️ **第一次執行會 build Docker images 和安裝依賴，需要 ~30 分鐘。建議在課前一天執行，這樣上課時就可以直接使用。**
 
+> **優先使用 `dev` 版本**。如果 build 過程中遇到問題（工具裝不起來、依賴衝突等），再改用 `prod` 版本作為備選方案。
+
 #### Mac
 
 打開 Terminal（`⌘ Command + Space` → 輸入 "Terminal"），執行：
@@ -415,6 +417,25 @@ Ctrl + C
 
 ---
 
+### ⚠️ 遇到 Build 問題？改用備選方案
+
+如果 `docker compose -f docker-compose.dev.yml up` 在 build 過程中出現錯誤（例如依賴衝突、工具裝不起來），可以改用預構建版本：
+
+```bash
+# 停止當前 build（按 Ctrl+C）
+# 然後改用預構建版本
+
+docker compose -f docker-compose.prod.yml up
+```
+
+**預構建版本的優缺點：**
+- ✅ **優點**：不需要 build，啟動快（1-2 分鐘）
+- ❌ **缺點**：無法開發 Prototype（環境是預先固定的）
+
+> 使用預構建版本查看系統外觀後，如果想開發 Prototype，還是需要回到 dev 版本或在本機用 `npm run dev`。
+
+---
+
 ## 📚 課程教材位置
 
 專案下載到本機後，以下是你會用到的教材：
@@ -447,7 +468,27 @@ Ctrl + C
 
 **A**: 完全可以！這堂課是為 PM 設計的，重點在產品規格的撰寫與思考。課程中的 Jira Dashboard 只是示範案例，所有技術操作都由 AI 工具協助完成。
 
-### Q2: Docker Desktop 無法啟動？
+### Q2: Docker 環境準備失敗？
+
+**A**: 如果 `docker compose -f docker-compose.dev.yml up` build 過程中出現錯誤：
+
+1. **先試試重新執行**（有時是網路暫時問題）
+   ```bash
+   # 停止當前 build（按 Ctrl+C）
+   docker compose -f docker-compose.dev.yml down
+   docker compose -f docker-compose.dev.yml up
+   ```
+
+2. **仍然失敗？改用備選方案**
+   ```bash
+   docker compose -f docker-compose.prod.yml up
+   ```
+
+3. **持續有問題**
+   - 課前請告知講師，我們一起排查
+   - 或在 Discord 提問，講師會協助解決
+
+### Q3: Docker Desktop 無法啟動？
 
 **A**:
 - 確認你的電腦符合系統需求（Mac 需 macOS 12+，Windows 需 Windows 10 64-bit 以上）
@@ -455,11 +496,11 @@ Ctrl + C
 - 重新啟動電腦後再試一次
 - 如果仍然無法啟動，課前請告知講師
 
-### Q3: 示範應用啟動很慢？
+### Q4: 示範應用啟動很慢？
 
 **A**: 首次啟動時 Docker 會從 Docker Hub 拉取預構建的 images，視網路速度約需 1-2 分鐘。第二次啟動會快很多（幾秒鐘），因為 images 已存在本機。
 
-### Q4: 啟動 Docker 時出現 Port 3000 已被佔用的錯誤？
+### Q5: 啟動 Docker 時出現 Port 3000 已被佔用的錯誤？
 
 **A**: 這表示你的電腦上有其他程式正在使用 Port 3000。需要先關閉佔用的程式：
 
@@ -490,7 +531,7 @@ taskkill /PID 1234 /F
 
 關閉後重新執行 `docker compose -f docker-compose.dev.yml up` 即可。
 
-### Q5: Antigravity 免費額度用完了怎麼辦？
+### Q6: Antigravity 免費額度用完了怎麼辦？
 
 **A**: Antigravity 的額度是按模型分開計算的，有幾種應對方式：
 1. **省著用** — 優先使用 **Fast Mode（Gemini 3 Flash）**，額度消耗較少
@@ -499,11 +540,11 @@ taskkill /PID 1234 /F
 4. **升級方案** — 訂閱 Google AI Pro（額度約每 5 小時刷新）
 5. **替代工具** — 暫時使用其他 AI IDE（如 Cursor）
 
-### Q6: 沒有 Google 帳號怎麼辦？
+### Q7: 沒有 Google 帳號怎麼辦？
 
 **A**: 課程 Step 1~3 需要使用 Gemini（需要 Google 帳號）。如果不方便申請，可以使用 ChatGPT 或 Claude 作為替代，但 System Instructions 可能需要自行調整。
 
-### Q7: 使用 Terminal 或 Antigravity 時出現 git 相關錯誤？
+### Q8: 使用 Terminal 或 Antigravity 時出現 git 相關錯誤？
 
 **A**: 這通常是因為你的電腦尚未安裝 Git。請參考上方「取得課程示範專案」章節中的「**前置步驟：安裝 Git**」完成安裝。如果不想安裝 Git，可以使用「方式三：從 GitHub 直接下載 ZIP」取得專案。
 
