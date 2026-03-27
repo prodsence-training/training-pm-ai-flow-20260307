@@ -68,11 +68,8 @@ OpportunitySolutionTree/
 │       └─ 版本歷史
 │
 └── examples/
-    ├── product-context-example.md
-    │   └─ Web Dashboard 配置示例
-    │
     └── [你的 product-context-*.md]
-        └─ 你的產品背景上下文（學員自行建立）
+        └─ 你的產品背景上下文（複製 template 後建立）
 ```
 
 ---
@@ -97,10 +94,10 @@ OpportunitySolutionTree/
 └── 核心問題框架 (聚焦方向)
 ```
 
-**例子（Web Dashboard）**：
+**例子**：
 ```
 ✅ 可以建議：UI 設計、新增指標、資料轉換
-❌ 不能建議：改 Jira 流程、改組織方式
+❌ 不能建議：改客戶流程、改組織方式
 ```
 
 ---
@@ -329,10 +326,9 @@ Step 3: 用戶故事 & PRD（待建設）
 
 ### 快速開始
 
-1. **查看示例**：`examples/product-context-example.md`（Web Dashboard）
-2. **複製模板**：`references/product-context-template.md`
-3. **填入你的產品信息**
-4. **在 Skill 中使用**
+1. **複製模板**：`references/product-context-template.md`
+2. **填入你的產品信息**
+3. **在 Skill 中使用**
 
 ### 使用方式
 

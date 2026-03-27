@@ -32,10 +32,27 @@ Terminal 按 `Ctrl + C`
 ### Given
 1, 參考 docs/reference/step0-painpoint-ref.md 痛點
 
-### 操作
+### 方式 A：Gemini Gem（課堂主要方式）
+
+#### 前置：上傳產品背景知識庫至 Gemini Gem
+
+> **為什麼需要這一步？**
+> 課程使用的是一個特定的 Demo 產品（Jira Dashboard MVP），如果不提供產品背景，Gemini 會根據通用知識自由發散，產出的痛點分析、OST、User Story 會脫離課程情境。上傳知識庫檔案是為了**限定 AI 的討論邊界**，確保所有產出都聚焦在這個 Demo 產品的範圍內。
+
+**操作步驟：**
+1. 建立 Gemini Gem 時，在知識庫（Knowledge）區塊上傳以下檔案：
+   - `docs/reference/product-context-for-gemini-kb.md`
+2. 這份檔案定義了：
+   - ✅ AI **可以探索**的方向（UI/UX、指標、資料邏輯、功能擴展）
+   - ❌ AI **禁止建議**的方向（改 Jira 流程、改組織流程、改 Google Sheet schema）
+3. **每個 Gem（PM-1、PM-2、PM-3）都需要上傳這份知識庫檔案**
+
+#### 建立 Gem 並開始對話
+
 - 建立 Gemini Gem：建立 Gemini Gem
     - system prompts:
     - docs/template/gemini-gem-PM-1-painpoint-analysis-prompts.md
+    - knowledge: `docs/reference/product-context-for-gemini-kb.md`（見上方說明）
 - 對話，貼上痛點，貼上至 Gemini Gem PM-1-用戶痛點分析助手
     - 痛點：
     - docs/reference/step0-painpoint-ref.md
@@ -43,7 +60,25 @@ Terminal 按 `Ctrl + C`
     - 舉例：還能生成其他假設嗎？
 - 經過對話，複製最終版的痛點分析至
     - 痛點分析結果：
-    - docs/lab-20260307/step1-painpoints-analysis.md
+    - docs/lab-20260328/step1-painpoints-analysis.md
+
+### 方式 B：AI IDE Skill（替代方式）
+
+> **Skill 位置**：`.agents/skills/PainAnalysis`
+> **觸發方式**：在 AI IDE 中直接描述痛點，Skill 會自動觸發
+
+**範例對話：**
+```
+這是我們收集到的痛點，請幫我進行分析：
+@docs/reference/step0-painpoint-ref.md
+```
+
+**Skill 會做的事：**
+- 引導你釐清問題陳述、目標用戶、痛點情境、嚴重程度
+- 針對不足的資訊提出補充問題
+- 產出結構化的痛點分析報告（7 個區塊）
+
+**產出存放：** `docs/lab-20260328/step1-painpoints-analysis.md`
 
 ### 筆記
 N/A
@@ -53,10 +88,12 @@ N/A
 ### Given
 1, 參考 step1-painpoints-analysis.md
 
-### 操作
+### 方式 A：Gemini Gem（課堂主要方式）
+
 - 建立 Gemini Gem：建立 Gemini Gem
     - system prompts:
     - docs/template/gemini-gem-PM-2-ost-prompts.md
+    - knowledge: `docs/reference/product-context-for-gemini-kb.md`
 - 對話，貼上痛點分析報告，貼上至 Gemini Gem PM-2-Opportunity Solution Tree 助手
     - (1) 痛點分析報告：
     - docs/reference/step1-painpoints-analysis.md
@@ -65,10 +102,31 @@ N/A
         - 回答 AI 詢問的問題，也收斂至設計好的情境
     - 經過對話，複製最終版的 OST 至
         - OST 結果：
-            - docs/lab-20260307/step2-ost-v1-all.md
+            - docs/lab-20260328/step2-ost-v1-all.md
         - 範圍再縮小：
             - (例如)我想先針對 Scope Change Waterfall（解決「老闆問為什麼做不完」的痛點，針對 PM/Lead）進行發想
-            - 生成：docs/lab-20260307/step2-ost-v2-focus.md
+            - 生成：docs/lab-20260328/step2-ost-v2-focus.md
+
+### 方式 B：AI IDE Skill（替代方式）
+
+> **Skill 位置**：`.agents/skills/OpportunitySolutionTree`
+> **觸發方式**：在 AI IDE 中提到痛點分析並要求探索機會，Skill 會自動觸發
+
+**範例對話：**
+```
+我已經完成痛點分析 @docs/lab-20260328/step1-painpoints-analysis.md
+請幫我進行 OST 探索
+```
+
+**Skill 會做的事：**
+- 詢問工作模式：快速模式（5 分鐘一次產出）或探索模式（15-30 分鐘互動式）
+- 自動掃描 codebase 取得產品背景，限定建議邊界
+- 系統性走過 Outcome → Opportunities → Solutions → Experiments
+- 確保 Solutions 多樣化，不停留在第一個方案
+
+**產出存放：**
+- OST 結果：`docs/lab-20260328/step2-ost-v1-all.md`
+- 聚焦版：`docs/lab-20260328/step2-ost-v2-focus.md`
 
 ### 筆記
 OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版本
@@ -79,9 +137,11 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 - 選項 A：已有 docs/reference/step2-ost-v2-focus.md
 - 選項 B：自由想法（無需 OST 報告）
 
-### 操作
+### 方式 A：Gemini Gem（課堂主要方式）
+
 - 建立 Gemini Gem：建立 Gemini Gem
     - system prompts: docs/template/gemini-gem-PM-3-userstory-prompts.md
+    - knowledge: `docs/reference/product-context-for-gemini-kb.md`
 
 - **對話模式選擇**：
     - **模式 A（結構化 OST）**：
@@ -96,9 +156,28 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
     - 如品質不佳，請對 AI 說：「請針對 [特定痛點] 再深化價值的描述」
 
 - 經過對話，複製最終版的 User Story 至
-    - docs/lab-20260307/step3-userstory-v1.md
+    - docs/lab-20260328/step3-userstory-v1.md
 
 - 回填：User Story 結果貼在「小組 Google Sheet」
+
+### 方式 B：AI IDE Skill（替代方式）
+
+> **Skill 位置**：`.agents/skills/UserStory`
+> **觸發方式**：在 AI IDE 中提到 OST 報告或想法並要求拆解 User Story，Skill 會自動觸發
+
+**範例對話：**
+```
+這是最終版的 OST @docs/lab-20260328/step2-ost-v2-focus.md
+請跟我討論 User Story
+```
+
+**Skill 會做的事：**
+- 支援雙模式：Mode A（基於 OST）和 Mode B（自由對話）
+- 透過 4 層深層提問挖掘「需求背後的需求」（使用者角色、優先級條件、使用情境、價值與成功）
+- 產出 `As a / I want / So that` 格式，附帶具體使用情境
+- 不寫 AC（留給 Step 5），只專注「理解使用者意圖」
+
+**產出存放：** `docs/lab-20260328/step3-userstory-v1.md`
 
 ### 筆記
 - User Story 不要使用一次性的結果，請多跟 AI 對談，收斂出最終版本
@@ -118,7 +197,7 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 
 3. 與 AI 對話，記錄答案
 
-4. 儲存筆記至 docs/lab-20260307/step4-askAI.md
+4. 儲存筆記至 docs/lab-20260328/step4-askAI.md
 
 ### 筆記
 - 這是一個短暫的「釐清體驗」，只需花 5-10 分鐘
@@ -127,38 +206,46 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 
 ## Step 5 Acceptance Criteria
 
+> **Skill 位置**：`.agents/skills/AcceptanceCriteria`
+> **此步驟使用 AI IDE Skill 進行**（不使用 Gemini Gem）
+
 ### Given
-1, 已有 `docs/lab-20260307/step3-userstory-v1.md`
+1, 已有 `docs/lab-20260328/step3-userstory-v1.md`
 
 ### 操作
 
 - **打開 AI IDE (Antigravity Claude Code / Cursor)**
 
-- **對話**
-    - 「我已經討論好的 User Story 在 `@docs/lab-20260307/step3-userstory-v1.md`，接下來請跟我討論 Acceptance Criteria。
+- **對話（Skill 會自動觸發）**
+    - 「我已經討論好的 User Story 在 `@docs/lab-20260328/step3-userstory-v1.md`，接下來請跟我討論 Acceptance Criteria。」
 
 - **釐清階段 (Clarification First)**
-    - AI 會針對系統限制、邊界條件、異常狀況提出 3-6 個問題。
+    - Skill 預設使用「先釐清再撰寫」流程，不會直接產出 AC
+    - AI 會針對系統限制、邊界條件、異常狀況提出 3-6 個問題
+    - 問題涵蓋：角色前置條件、流程分支、邊界條件、例外處理、格式規則、成功標準
 
 - **人工審查與產出 (Output)**
-    - 確認 Mapping Table 覆蓋了所有 Story 需求點。
-    - 正式產出 Gherkin 格式的 AC 文件：`docs/lab-20260307/step4-ac-v1.md`
+    - 確認 Mapping Table 覆蓋了所有 Story 需求點
+    - 正式產出 Gherkin 格式的 AC 文件：`docs/lab-20260328/step4-ac-v1.md`
+    - 產出包含：Gherkin scenarios（正常/邊界/例外流程）+ Story → AC mapping table
 
 ### 筆記
 - **不要直接生成 AC**：透過對話釐清系統限制，讓 AI 一步一步引導你完成 AC 的討論
 - **Gherkin 格式**：使用 Given-When-Then 讓規格可測試且業務邏輯清晰。
 - **系統限制對齊**：在產出 AC 前，先對齊系統限制，再產出規格。
 
-## Step 6 PRD Draft (Skill 版)
+## Step 6 PRD Draft
+
+> **Skill 位置**：`.agents/skills/PRD`
+> **此步驟使用 AI IDE Skill 進行**（不使用 Gemini Gem）
 
 ### Given
-1. **前置材料（越多越好）**：痛點分析 (Step 1)、User Story (Step 3)、Acceptance Criteria (Step 4)。
-2. **PRD Draft Skill**：確保 AI 已載入對應的專用 Skill。
+1. **前置材料（越多越好）**：痛點分析 (Step 1)、User Story (Step 3)、Acceptance Criteria (Step 5)。
 
 ### 操作
-1. **啟動 PRD Skill**：
+1. **啟動 PRD Skill（在 AI IDE 中對話即自動觸發）**：
    直接告知 AI 你想開始討論 PRD 並引用相關材料。
-   *範例：*「我想針對這個功能討論 PRD，請根據 `@docs/lab-jugg-example/` 裡的 step1, step3, step4 材料來引導我。」
+   *範例：*「我想針對這個功能討論 PRD，請根據 `@docs/lab-20260328/` 裡的 step1, step3, step4 材料來引導我。」
 
 2. **智慧澄清與跳題 (Smart Clarification)**：
    - AI 會自動解析現有材料，**自動跳過**已知的背景資訊。
@@ -179,13 +266,16 @@ OST 不要使用一次性的結果，請多跟 AI 對談，收斂出最終的版
 
 ## Step 7 Prototype
 
+> **Skill 位置**：`.agents/skills/Prototype-basedon-repo`
+> **此步驟使用 AI IDE Skill 進行**（不使用 Gemini Gem）
+
 ### Given
 1, 已有 PRD
 
 ### 操作
-- **啟動 Prototype Skill**：
+- **啟動 Prototype Skill（在 AI IDE 中對話即自動觸發）**：
   直接告知 Agent 你想針對 PRD 建立 Prototype。
-  *範例對話*：「我已經完成這一功能的 PRD @[PRD 文件路徑]，現在請協助我建立 Prototype。」
+  *範例對話*：「我已經完成這一功能的 PRD `@docs/lab-20260328/step5-prd.md`，現在請協助我建立 Prototype。」
 
 - **Phase 1：環境掃描（自動執行）**
   AI 會自動掃描技術棧（Framework、UI Library）與現有設計模式。
